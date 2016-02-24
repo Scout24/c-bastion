@@ -1,0 +1,18 @@
+region: eu-west-1
+timeout: 1200
+stacks:
+  c-bastion:
+    template-url: template.yml
+    tags:
+      segment: your-tagged-segment
+      usecase: your-usecase
+      owner: admin@example.com
+    parameters:
+      dockerImageVersion: latest
+      vpcId: "|Ref|vpc.id"
+      subnetIds: "|Ref|vpc.subnets"
+      sslCertificateId: 'arn:aws:iam::12345678912:server-certificate/test-certificate'
+      dnsDomain: 'your-test-domain'
+      lastRestartedTimestamp: '2016-02-15T15:37:32.498066'
+      logStreamName: "|Ref|jumphost-kinesis.streamName"
+      logStreamArn: "arn:aws:kinesis:eu-west-1:12345678912:stream/jumphost-kinesis-kinesisStream"
