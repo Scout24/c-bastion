@@ -9,7 +9,6 @@ echo 'deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted uni
 echo 'deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates main restricted universe multiverse' >> /etc/apt/sources.list; \
 echo 'deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted universe multiverse' >> /etc/apt/sources.list;
 
-
 RUN apt-get update && apt-get install -y openssh-server supervisor python-pip cron
 
 RUN mkdir -p /var/run/sshd /var/log/supervisor
