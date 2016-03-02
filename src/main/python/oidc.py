@@ -3,7 +3,7 @@ from datetime import datetime
 from calendar import timegm
 
 
-from . import index
+import index
 
 
 def username_from_request(http_request):
