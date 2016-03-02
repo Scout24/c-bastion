@@ -9,6 +9,7 @@ from bottle import get, post, request, response, run
 REGEX_USERNAME = re.compile('^[a-z0-9_]+$')
 PATH_PREFIX = '/data/home'
 LIST_DISABLED_USERS = ['root']
+AUTH_URL = "<your-auth-server>"
 
 
 class UsernameException(BaseException):
@@ -160,7 +161,13 @@ def delete_user():
     return {'response': 'Successful deletion of user {0}.'.format(username)}
 
 
+def init_auth_url():
+    global AUTH_URL
+    AUTH_URL = os.environ['AUTH_URL']
+
+
 def run_server():
+    init_auth_url()
     run(host='0.0.0.0', reloader=True, server="paste")
 
 if __name__ == '__main__':
