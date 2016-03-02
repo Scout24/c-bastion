@@ -8,5 +8,6 @@ services:
 before_install:
   - docker build -t cbastion:latest .
   - docker tag cbastion:latest programmieramt/cbastion:latest
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push programmieramt/cbastion
 
