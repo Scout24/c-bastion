@@ -7,6 +7,6 @@ services:
 
 before_install:
   - docker build -t cbastion/latest .
-  - docker tag cbastion/latest programmieramt/cbastion
-  - docker pull
+  - docker tag cbastion:latest programmieramt/cbastion:latest
+  - docker push programmieramt/cbastion:latest
 
