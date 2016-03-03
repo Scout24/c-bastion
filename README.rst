@@ -16,11 +16,6 @@ container that can be used as a jump-host with dynamically created user. After
 creation, the user is able to log in into the Docker container by using his/her
 given SSH key.
 
-The repo holds a ``test-stacks.yml`` file to create an AWS CFN stack with using
-an EC2 instance with ``taupage``, in which a Docker container is set up to serve
-as the jump-host. Make sure to edit both the ``test-stacks.yml`` and
-``template.yml`` (included by the former) before syncing it. The templates are in
-YAML format, understood by ``cfn-sphere``.
 
 Architecture
 ============
@@ -80,6 +75,12 @@ There are a total of three endpoints:
 
 CFN STACK
 =========
+
+The repo holds a ``test-stacks.yml`` file to create an AWS CFN stack with using
+an EC2 instance with ``taupage``, in which a Docker container is set up to serve
+as the jump-host. Make sure to edit both the ``test-stacks.yml`` and
+``template.yml`` (included by the former) before syncing it. The templates are in
+YAML format, understood by ``cfn-sphere``.
 
 Create/sync your AWS CFN stack:
 
