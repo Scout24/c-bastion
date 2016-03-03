@@ -23,24 +23,50 @@ Architecture
 ------------
 
 The main server-code is written Python and everything is packaged as a Docker
-container
+container. Inside the Docker container we use 
+`Supervisor <http://supervisord.org/>`_ to run multiple processes. You may
+inspect the file ``supervisord.conf`` to see the how it has been configured
+(and where the log files are).
 
 Configuration
 -------------
 
-There is a single configuration the URL of the auth-server
+To run the jump-host you will need a so called auth-server that can provide
+`OpenID Connect <http://openid.net/connect/>`_
+`Json Web Tokens <http://jwt.io/>`_. To configure this server, please supply
+the URL via an environment variable called ``AUTH_URL``.
+
+Docker Image Availability
+-------------------------
+
+The project is built with continuous integration on `Travis CI
+<https://travis-ci.org/>`_.  This tests the server code, builds the Docker
+image and uploads it to `Docker Hub <https://hub.docker.com/>`_ via Travis.
+Hence you may obtain the Docker image from our organization on Docker Hub:
+
+https://hub.docker.com/r/immobilienscout24/cbastion/
 
 Local Testing
 -------------
 
-Cloud Deployment
-----------------
+Either pull the image from Docker Hub:
 
-The project is built with continuous integration on https://travis-ci.org/ .
-This tests the server code, builds the Docker image and uploads it to
-https://hub.docker.com/ via Travis. You can find the Docker image at:
+.. code-block::
 
-https://hub.docker.com/r/immobilienscout24/cbastion/
+    $ docker pull immobilienscout24/cbastion
+
+.. Or alternatively you can build it from the sources:
+.. 
+.. .. code-block::
+.. 
+..     $ docker build -t cbastion:latest .
+
+You can then launch the Docker image using:
+
+    $ docker run -P -e AUTH_URL=<AUTH_URL> immobilienscout24/cbastion:latest
+
+API
+---
 
 Deployment process
 
