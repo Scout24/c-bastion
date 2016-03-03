@@ -78,7 +78,8 @@ There are a total of three endpoints:
 :``create``: Upload ssh-key-file and create user.
 :``delete``: Delete the user again.
 
-
+CFN STACK
+---------
 
 Create/sync your AWS CFN stack:
 
