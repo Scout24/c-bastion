@@ -1,11 +1,20 @@
 `c-bastion`, the cloud jumphost backend for `cbas`
 =======
 
-`c-bastion` allows you to create users in a docker container via a CLI tool called `cbas`, and then log in with these formerly created users.
+`c-bastion` allows you to create users in a docker container via a CLI tool
+called `cbas`, and then log in with these formerly created users.
 
-The repo holds a `test-stacks.yml` file to create an AWS CFN stack with using an EC2 instance with `taupage`, in which a Docker container is set up to serve as the jumphost. Make sure to edit both the `test-stacks.yml` and `template.yml` (included by the former) before syncing it. The templates are in YAML format, understood by `cfn-sphere`.
+The repo holds a `test-stacks.yml` file to create an AWS CFN stack with using
+an EC2 instance with `taupage`, in which a Docker container is set up to serve
+as the jumphost. Make sure to edit both the `test-stacks.yml` and
+`template.yml` (included by the former) before syncing it. The templates are in
+YAML format, understood by `cfn-sphere`.
 
-The purpose of this project is to provide an EC2 instance with a Docker container that can be used as a jumphost with dynamically created user. After creation, the user is able to log in into the Docker container by using his/her given SSH key. All this is packed into an AWS CFN stack, which can be synced/created by the listed files here.
+The purpose of this project is to provide an EC2 instance with a Docker
+container that can be used as a jumphost with dynamically created user. After
+creation, the user is able to log in into the Docker container by using his/her
+given SSH key. All this is packed into an AWS CFN stack, which can be
+synced/created by the listed files here.
 
 Prerequisites:
 -------
