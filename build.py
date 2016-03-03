@@ -1,4 +1,5 @@
-from pybuilder.core import use_plugin, init
+from pybuilder.core import use_plugin, init, Author
+from pybuilder.vcs import VCSRevision
 
 use_plugin("python.core")
 use_plugin("python.unittest")
@@ -7,10 +8,18 @@ use_plugin("python.flake8")
 use_plugin("python.coverage")
 use_plugin("python.distutils")
 
+name = 'c-bastion'
+version = VCSRevision().get_git_revision_count()
+summary = 'Cloud Bastion Host'
+authors = [
+    Author('Sebastian Spoerer', "sebastian.spoerer@immobilienscout24.de"),
+    Author('Valentin Haenel', "valentin.haenel@immobilienscout24.de"),
+    Author('Tobias Hoeynck', "tobias.hoeynck@immobilienscout24.de"),
+    Author('Laszlo Karolyi', "laszlo@karolyi.hu"),
+]
+url = 'https://github.com/ImmobilienScout24/c-bastion'
 
-name = "jump_auth"
 default_task = "publish"
-
 
 @init
 def initialize(project):
@@ -26,3 +35,5 @@ def initialize(project):
     project.build_depends_on('mock')
 
     project.set_property('coverage_break_build', False)
+    project.get_property('filter_resources_glob').extend(
+        ['**/cbas/__init__.py'])
