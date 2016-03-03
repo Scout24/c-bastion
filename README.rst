@@ -53,18 +53,20 @@ Either pull the image from Docker Hub:
 
     $ docker pull immobilienscout24/cbastion
 
-.. Or alternatively you can build it from the sources:
-.. 
-.. .. code-block::
-.. 
-..     $ docker build -t cbastion:latest .
-
 You can then launch the Docker image using, note how the ``AUTH_URL`` is
 supplied:
 
 .. code-block::
 
-    $ docker run -e AUTH_URL=<AUTH_URL> immobilienscout24/cbastion:latest
+    $ docker run -p 127.0.0.1:8080:8080 -e AUTH_URL=http://auth-server.example immobilienscout24/cbastion:latest
+
+And finally, check that the container has started and that the jump-host server
+has come up:
+
+.. code-block::
+
+   $ curl http://127.0.0.1:8080/status
+   OK
 
 API
 ===
