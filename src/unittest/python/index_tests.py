@@ -7,9 +7,9 @@ import os
 import tempfile
 import shutil
 import stat
-import index
-from index import (store_pubkey, check_username,
-                   check_and_add, check_and_delete, delete_user, create_user_with_key, UsernameException)
+from c_bastion import index
+from c_bastion.index import (store_pubkey, check_username, check_and_add,
+                             check_and_delete, delete_user, UsernameException)
 
 
 class TestIndex(unittest.TestCase):
