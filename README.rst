@@ -71,25 +71,6 @@ You can then launch the Docker image using:
 API
 ---
 
-Deployment process
-
-- clone this repository
-
-Docker ECR deployment:
-
-- `VERSION=<version-number>`
-- `IMAGE_NAME="your-preferred-image-name"`
-- `REPO="123456789012.dkr.ecr.us-east-1.amazonaws.com"`
-- `docker build -t "$IMAGE_NAME:$VERSION" .`
-- `docker tag "$IMAGE_NAME:$VERSION" "$REPO/$IMAGE_NAME:$VERSION"`
-- `docker tag "$IMAGE_NAME:$VERSION" "$REPO/$IMAGE_NAME:latest"`
-- `docker push "$REPO/$IMAGE_NAME"`
-
-Test the project:
-- create your virtualenv and activate it
-- `pip install cfn-sphere pybuilder`
-- `pyb install_dependencies`
-- `pyb -v`
 
 Create/sync your AWS CFN stack:
 
