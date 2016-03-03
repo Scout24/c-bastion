@@ -9,7 +9,9 @@ import shutil
 import stat
 from c_bastion import index
 from c_bastion.index import (store_pubkey, check_username, check_and_add,
-                             check_and_delete, delete_user, UsernameException)
+                             check_and_delete, delete_user, UsernameException,
+                             create_user_with_key,
+                             )
 
 
 class TestIndex(unittest.TestCase):
@@ -117,3 +119,9 @@ class TestIndex(unittest.TestCase):
     def test_delete_user_with_bad_auth_response(self):
         self.assertEqual(delete_user(), {'error': 'Permission denied'})
         self.assertEqual(index.response.status, "403 Forbidden")
+
+    @patch("c_bastion.index.username_from_request", Mock(return_value=None))
+    def test_create_user_with_key_fails_for_missing_username(self):
+        self.assertEqual(create_user_with_key(), {'error': 'Permission denied'})
+        self.assertEqual(index.response.status, "403 Forbidden")
+
