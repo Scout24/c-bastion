@@ -64,12 +64,20 @@ Either pull the image from Docker Hub:
 .. 
 ..     $ docker build -t cbastion:latest .
 
-You can then launch the Docker image using:
+You can then launch the Docker image using, note how the ``AUTH_URL`` is
+supplied:
 
     $ docker run -P -e AUTH_URL=<AUTH_URL> immobilienscout24/cbastion:latest
 
 API
 ---
+
+There are a total of three endpoints:
+
+:``status``: Check if the server is up and running.
+:``create``: Upload ssh-key-file and create user.
+:``delete``: Delete the user again.
+
 
 
 Create/sync your AWS CFN stack:
