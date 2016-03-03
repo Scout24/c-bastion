@@ -34,7 +34,7 @@ def username_from_request(http_request):
 def fetch_user_info(access_token):
 
     user_info = request(
-        'GET', index.AUTH_URL,
+        'GET', AUTH_URL,
         headers={
             'Authorization': 'Bearer ' + access_token
         }).json()
@@ -48,7 +48,7 @@ def validate_user_info(user_info):
     # obtained during Discovery) MUST exactly match the value of the iss
     # (issuer) Claim.
     valid_issuer = \
-        user_info['iss'] == index.AUTH_URL
+        user_info['iss'] == AUTH_URL
 
     # The Client MUST validate that the aud (audience) Claim contains
     # its client_id value registered at the Issuer identified by the iss
