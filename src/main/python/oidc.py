@@ -34,7 +34,7 @@ def username_from_request(http_request):
 def fetch_user_info(access_token):
 
     user_info = request(
-        'GET', AUTH_URL,
+        'GET', "{0}/oauth/user_info".format(AUTH_URL),
         headers={
             'Authorization': 'Bearer ' + access_token
         }).json()
