@@ -3,7 +3,7 @@
 ====================================================
 
 About
------
+=====
 
 ``c-bastion`` allows you to create users in a docker container via a CLI tool
 and then log in with these formerly created users. The CLI tool is called
@@ -23,7 +23,7 @@ as the jump-host. Make sure to edit both the ``test-stacks.yml`` and
 YAML format, understood by ``cfn-sphere``.
 
 Architecture
-------------
+============
 
 The main server-code is written Python and everything is packaged as a Docker
 container. Inside the Docker container we use 
@@ -32,7 +32,7 @@ inspect the file ``supervisord.conf`` to see the how it has been configured
 (and where the log files are).
 
 Configuration
--------------
+=============
 
 To run the jump-host you will need a so called auth-server that can provide
 `OpenID Connect <http://openid.net/connect/>`_
@@ -40,7 +40,7 @@ To run the jump-host you will need a so called auth-server that can provide
 the URL via an environment variable called ``AUTH_URL``.
 
 Docker Image Availability
--------------------------
+=========================
 
 The project is built with continuous integration on `Travis CI
 <https://travis-ci.org/>`_.  This tests the server code, builds the Docker
@@ -50,7 +50,7 @@ Hence you may obtain the Docker image from our organization on Docker Hub:
 https://hub.docker.com/r/immobilienscout24/cbastion/
 
 Local Testing
--------------
+=============
 
 Either pull the image from Docker Hub:
 
@@ -70,7 +70,7 @@ supplied:
     $ docker run -P -e AUTH_URL=<AUTH_URL> immobilienscout24/cbastion:latest
 
 API
----
+===
 
 There are a total of three endpoints:
 
@@ -79,7 +79,7 @@ There are a total of three endpoints:
 :``delete``: Delete the user again.
 
 CFN STACK
----------
+=========
 
 Create/sync your AWS CFN stack:
 
