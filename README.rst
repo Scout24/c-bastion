@@ -62,7 +62,9 @@ Either pull the image from Docker Hub:
 You can then launch the Docker image using, note how the ``AUTH_URL`` is
 supplied:
 
-    $ docker run -P -e AUTH_URL=<AUTH_URL> immobilienscout24/cbastion:latest
+.. code-block::
+
+    $ docker run -e AUTH_URL=<AUTH_URL> immobilienscout24/cbastion:latest
 
 API
 ===
