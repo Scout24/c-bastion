@@ -85,7 +85,6 @@ Create/sync your AWS CFN stack:
 - edit `test-stacks.yml` and `template.yml` to fit your needs
 - sync the stack with `cf sync --confirm --parameter <your-preferred-stack-name>.dockerImageVersion=$VERSION test-stacks.yml`
 
-A quick&dirty test script is provided in `test.sh`. The script AND the project uses an auth server. Change it in `oidc.py` and `test.sh` to use your own.
 
 License
 =======
