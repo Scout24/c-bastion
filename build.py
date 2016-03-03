@@ -7,6 +7,7 @@ use_plugin("python.install_dependencies")
 use_plugin("python.flake8")
 use_plugin("python.coverage")
 use_plugin("python.distutils")
+use_plugin("filter_resources")
 
 name = 'c-bastion'
 version = VCSRevision().get_git_revision_count()
@@ -34,6 +35,5 @@ def initialize(project):
     project.build_depends_on("requests_mock")
     project.build_depends_on('mock')
 
-    project.set_property('coverage_break_build', False)
     project.get_property('filter_resources_glob').extend(
-        ['**/cbas/__init__.py'])
+        ['**/c_bastion/__init__.py'])
