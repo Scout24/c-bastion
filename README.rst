@@ -22,7 +22,8 @@ YAML format, understood by ``cfn-sphere``.
 Architecture
 ------------
 
-This project 
+The main server-code is written Python and everything is packaged as a Docker
+container
 
 Configuration
 -------------
@@ -34,6 +35,12 @@ Local Testing
 
 Cloud Deployment
 ----------------
+
+The project is built with continuous integration on https://travis-ci.org/ .
+This tests the server code, builds the Docker image and uploads it to
+https://hub.docker.com/ via Travis. You can find the Docker image at:
+
+https://hub.docker.com/r/immobilienscout24/cbastion/
 
 Deployment process
 
