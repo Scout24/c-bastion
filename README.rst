@@ -6,7 +6,10 @@ About
 -----
 
 ``c-bastion`` allows you to create users in a docker container via a CLI tool
-called ``cbas``, and then log in with these formerly created users.
+and then log in with these formerly created users. The CLI tool is called
+``cbas`` and can be found at:
+
+https://github.com/immobilienscout24/cbas
 
 The purpose of this project is to provide an EC2 instance with a Docker
 container that can be used as a jump-host with dynamically created user. After
