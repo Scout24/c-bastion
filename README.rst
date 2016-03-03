@@ -73,6 +73,8 @@ There are a total of three endpoints:
 :``create``: Upload ssh-key-file and create user.
 :``delete``: Delete the user again.
 
+Note however, that the preferred way to interact with the server is ``cbas``.
+
 CFN STACK
 =========
 
