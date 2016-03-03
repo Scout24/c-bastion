@@ -11,8 +11,7 @@ called ``cbas``, and then log in with these formerly created users.
 The purpose of this project is to provide an EC2 instance with a Docker
 container that can be used as a jump-host with dynamically created user. After
 creation, the user is able to log in into the Docker container by using his/her
-given SSH key. All this is packed into an AWS CFN stack, which can be
-synced/created by the listed files here.
+given SSH key.
 
 The repo holds a ``test-stacks.yml`` file to create an AWS CFN stack with using
 an EC2 instance with ``taupage``, in which a Docker container is set up to serve
