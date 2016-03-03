@@ -106,13 +106,13 @@ class TestIndex(unittest.TestCase):
         with self.assertRaises(UsernameException):
             check_and_delete('MPython')
 
-    @patch("index.username_from_request", return_value="MPython")
+    @patch("c_bastion.index.username_from_request", return_value="MPython")
     def test_delete_user_with_nonexistent_user(self, request_mock):
         self.assertEqual(
             delete_user(), {'error': 'Username MPython does not exist.'})
         self.assertEqual(index.response.status, "400 Bad Request")
 
-    @patch("index.username_from_request", return_value=None)
+    @patch("c_bastion.index.username_from_request", return_value=None)
     def test_delete_user_with_bad_auth_response(self, request_mock):
         self.assertEqual(delete_user(), {'error': 'Permission denied'})
         self.assertEqual(index.response.status, "403 Forbidden")
