@@ -1,9 +1,15 @@
+import os
 from requests import request
 from datetime import datetime
 from calendar import timegm
 
 
-import index
+AUTH_URL = "<your-auth-server>"
+
+
+def init_auth_url():
+    global AUTH_URL
+    AUTH_URL = os.environ['AUTH_URL']
 
 
 def username_from_request(http_request):
