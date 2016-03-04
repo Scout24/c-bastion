@@ -6,7 +6,7 @@ from c_bastion.oidc import (validate_user_info,
                             fetch_user_info,
                             username_from_request,
                             )
-
+from c_bastion import oidc
 
 class OIDCTestsValidateUserInfo(unittest.TestCase):
 
@@ -106,3 +106,11 @@ class TestUsernameFromRequest(unittest.TestCase):
         validate_mock.return_value = True
         self.assertEqual('any_user', username_from_request(mock_http_request))
 
+
+class TestInitAuthURL(unittest.TestCase):
+
+    @patch('os.environ', {'AUTH_URL': "http://configured.test"})
+    def test_init_auth_url(self):
+        self.assertEqual("http://your-auth-server.test", oidc.AUTH_URL)
+        oidc.init_auth_url()
+        self.assertEqual("http://configured.test", oidc.AUTH_URL)

@@ -4,7 +4,7 @@ from datetime import datetime
 from calendar import timegm
 
 
-AUTH_URL = "<your-auth-server>"
+AUTH_URL = "http://your-auth-server.test"
 
 
 def init_auth_url():
