@@ -82,8 +82,8 @@
 
 # Stop the docker host
 
-#  $ docker stop $container_id
-#  * (glob)
+  $ docker stop $container_id
+  * (glob)
 
 # kill the auth-server mock
 
