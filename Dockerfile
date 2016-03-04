@@ -16,7 +16,7 @@ RUN touch /var/log/cron.log
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ADD target/dist/c-bastion-* /tmp/auth/
 RUN ls /tmp/auth
-RUN cd /tmp/auth/ && python setup.py install
+RUN cd /tmp/auth/ && pip install .
 EXPOSE 22 8080
 
 CMD ["/usr/bin/supervisord"]
