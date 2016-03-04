@@ -49,7 +49,7 @@ https://hub.docker.com/r/immobilienscout24/cbastion/
 Local Testing
 =============
 
-Either pull the image from Docker Hub:
+Pull the image from Docker Hub:
 
 .. code-block::
 
