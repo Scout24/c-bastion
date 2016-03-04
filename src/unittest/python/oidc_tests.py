@@ -2,7 +2,10 @@ import unittest
 from mock import patch, Mock
 
 
-from c_bastion.oidc import validate_user_info, fetch_user_info
+from c_bastion.oidc import (validate_user_info,
+                            fetch_user_info,
+                            username_from_request,
+                            )
 
 
 class OIDCTestsValidateUserInfo(unittest.TestCase):
@@ -69,4 +72,37 @@ class TestFetchUserInfo(unittest.TestCase):
             'http://auth-server.example/oauth/user_info',
             headers={'Authorization': 'Bearer any_old_access_token'}
         )
+
+
+class TestUsernameFromRequest(unittest.TestCase):
+
+    def test_username_from_request_fails_for_missing_authorization_header(self):
+        mock_http_request = Mock()
+        mock_http_request.headers = {}
+        self.assertIsNone(username_from_request(mock_http_request))
+
+    def test_username_from_request_fails_for_invalid_authorization_header(self):
+        mock_http_request = Mock()
+        mock_http_request.headers = {'Authorization': 'RANDOM'}
+        self.assertIsNone(username_from_request(mock_http_request))
+
+    @patch('c_bastion.oidc.fetch_user_info')
+    @patch('c_bastion.oidc.validate_user_info')
+    def test_username_from_request_fails_for_missing_user_info(self,
+                                                               validate_mock,
+                                                               fetch_mock):
+        mock_http_request = Mock()
+        mock_http_request.headers = {'Authorization': 'Bearer any_access_token'}
+        validate_mock.return_value = False
+        self.assertIsNone(username_from_request(mock_http_request))
+
+    @patch('c_bastion.oidc.fetch_user_info')
+    @patch('c_bastion.oidc.validate_user_info')
+    def test_username_from_request_succeds(self, validate_mock, fetch_mock):
+        mock_http_request = Mock()
+        mock_http_request.headers = {'Authorization':
+                                     'Bearer any_access_token'}
+        fetch_mock.return_value = {'sub': 'any_user'}
+        validate_mock.return_value = True
+        self.assertEqual('any_user', username_from_request(mock_http_request))
 
