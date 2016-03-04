@@ -70,6 +70,13 @@ has come up:
    $ curl http://127.0.0.1:8080/status
    OK
 
+You could also check the current version:
+
+.. code-block::
+
+   $ curl http://127.0.0.1:8080/version
+   {'version': '53'}
+
 Deployment
 ----------
 
