@@ -70,6 +70,16 @@ has come up:
    $ curl http://127.0.0.1:8080/status
    OK
 
+Deployment
+----------
+
+Personally, we use `AWS CloudFormation
+<https://aws.amazon.com/de/cloudformation/>`_ in conjunction with `(our own
+custom version of ) Stups Taupage
+<http://stups.readthedocs.org/en/latest/components/taupage.html>`_ to deploy.
+Your milage may vary. Unfortuntaley the templates we use contain private
+configuartion so we are unable to make those available to the public.
+
 API
 ===
 
