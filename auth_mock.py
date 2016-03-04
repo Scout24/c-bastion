@@ -9,6 +9,7 @@ app = Bottle()
 
 TOKEN = 'my-nifty-access-token'
 AUTH_URL = "http://your-auth-server.test"
+USER = 'integrationtestuser'
 
 
 def init_auth_url():
@@ -24,21 +25,21 @@ def status():
 @app.route('/oauth/token', method='POST')
 def auth_server():
     username = request.forms.get('username')
-    if username == 'integration-test-user':
+    if username == USER:
         return {'access_token': TOKEN}
 
 
-@app.route('/oauth/user/info', method='GET')
+@app.route('/oauth/user_info', method='GET')
 def create():
     auth_token = request.headers.get('Authorization').split()[1]
     if auth_token == TOKEN:
         now = timegm(datetime.utcnow().utctimetuple())
-        return {'aud': 'jumphost',
+        return {'aud': 'jumpauth',
                 'exp': now + 3600,
                 'iat': now,
                 'iss': AUTH_URL,
                 'scope': ['any_scope'],
-                'sub': 'integration-test-user',
+                'sub': USER,
                 }
 
 init_auth_url()

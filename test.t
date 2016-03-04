@@ -51,6 +51,8 @@
 # (Assuming it has been built etc...)
 
   $ container_id=$(docker run -d -p 127.0.0.1:8080:8080 -e AUTH_URL=$AUTH_URL cbastion:latest)
+  docker: Error response from daemon: failed to create endpoint agitated_austin on network bridge: Bind for 127.0.0.1:8080 failed: port is already allocated.
+  [125]
 
 # Give this 5 seconds to come online
 
@@ -65,14 +67,23 @@
   integration_key.pub
   venv
 
+  $ cbas -u integrationtestuser -p testing \
+  > -k integration_key.pub \
+  > -h localhost:8080 \
+  > -s client_secret \
+  > -a http://localhost:8943/oauth/token \
+  > upload
+  Will now attempt to obtain an JWT...
+  Authentication OK!
+  Access token was received.
+  Will now attempt to upload your ssh-key...
+  Upload OK!
 
-
-  $ cbas -u  -p testing -k integration_key.pub -h localhost:8080 -s client_secret -a http://localhost:8080/oauth/token upload
 
 # Stop the docker host
 
-  $ docker stop $container_id
-  * (glob)
+#  $ docker stop $container_id
+#  * (glob)
 
 # kill the auth-server mock
 
