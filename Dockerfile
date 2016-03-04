@@ -17,6 +17,8 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN pip install pybuilder
 ADD . /tmp/auth/
 RUN cd /tmp/auth && pyb -X install_dependencies && pyb -X install
+RUN apt-get remove git
+RUN rm -rfv /tmp/auth
 EXPOSE 22 8080
 
 CMD ["/usr/bin/supervisord"]
