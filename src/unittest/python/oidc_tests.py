@@ -8,6 +8,7 @@ from c_bastion.oidc import (validate_user_info,
                             )
 from c_bastion import oidc
 
+
 class OIDCTestsValidateUserInfo(unittest.TestCase):
 
     def setUp(self):
