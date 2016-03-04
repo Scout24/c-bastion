@@ -82,20 +82,6 @@ There are a total of three endpoints:
 
 Note however, that the preferred way to interact with the server is ``cbas``.
 
-CFN STACK
-=========
-
-The repo holds a ``test-stacks.yml`` file to create an AWS CFN stack with using
-an EC2 instance with ``taupage``, in which a Docker container is set up to serve
-as the jump-host. Make sure to edit both the ``test-stacks.yml`` and
-``template.yml`` (included by the former) before syncing it. The templates are in
-YAML format, understood by ``cfn-sphere``.
-
-Create/sync your AWS CFN stack:
-
-- edit `test-stacks.yml` and `template.yml` to fit your needs
-- sync the stack with `cf sync --confirm --parameter <your-preferred-stack-name>.dockerImageVersion=$VERSION test-stacks.yml`
-
 
 License
 =======
