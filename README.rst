@@ -21,7 +21,7 @@ Architecture
 ============
 
 The main server-code is written Python and everything is packaged as a Docker
-container. Inside the Docker container we use 
+container. Inside the Docker container we use
 `Supervisor <http://supervisord.org/>`_ to run multiple processes. You may
 inspect the file ``supervisord.conf`` to see the how it has been configured
 (and where the log files are).
