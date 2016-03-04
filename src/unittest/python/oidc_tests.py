@@ -2,7 +2,7 @@ import unittest
 from mock import patch, Mock
 
 
-from c_bastion.oidc import validate_user_info
+from c_bastion.oidc import validate_user_info, fetch_user_info
 
 
 class OIDCTestsValidateUserInfo(unittest.TestCase):
@@ -51,3 +51,22 @@ class OIDCTestsValidateUserInfo(unittest.TestCase):
     def test_validate_user_info_fail_for_incorrect_issuer(self):
         user_info = self._make_user_info(iss=u'http://no-auth-server.example')
         self.assertFalse(validate_user_info(user_info))
+
+
+class TestFetchUserInfo(unittest.TestCase):
+
+    @patch("c_bastion.oidc.request")
+    @patch("c_bastion.oidc.AUTH_URL", 'http://auth-server.example')
+    def test_fetch_user_info(self, request_mock):
+        response_mock = Mock()
+        response_mock.json.return_value = 'any_user_info'
+        request_mock.return_value = response_mock
+        token = 'any_old_access_token'
+        user_info = fetch_user_info(token)
+        self.assertEqual(user_info, 'any_user_info')
+        request_mock.assert_called_once_with(
+            'GET',
+            'http://auth-server.example/oauth/user_info',
+            headers={'Authorization': 'Bearer any_old_access_token'}
+        )
+
