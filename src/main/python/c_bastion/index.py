@@ -171,5 +171,3 @@ def run_server():
     init_auth_url()
     run(host='0.0.0.0', reloader=True, server="paste")
 
-if __name__ == '__main__':
-    run_server()
