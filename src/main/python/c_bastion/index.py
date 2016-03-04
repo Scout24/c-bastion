@@ -6,6 +6,8 @@ from oidc import username_from_request, init_auth_url
 import sh
 from bottle import get, post, request, response, run
 
+from . import __version__
+
 REGEX_USERNAME = re.compile('^[a-z0-9_]+$')
 PATH_PREFIX = '/data/home'
 LIST_DISABLED_USERS = ['root']
@@ -28,6 +30,11 @@ def create_user_entry_point():
 @get('/status')
 def status():
     return 'OK'
+
+
+@get('/version')
+def version():
+    return {'version': __version__}
 
 
 def store_pubkey(username, home_dir, pubkey):
