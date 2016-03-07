@@ -138,6 +138,11 @@ follow.
 
        (venv) $ make system-test
 
+#. To build and run all available tests, simply type:
+
+   .. code-block::
+
+       (venv) $ make
 
 License
 =======

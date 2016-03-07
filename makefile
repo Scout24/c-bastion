@@ -1,5 +1,9 @@
 .PHONY: build run attach
 
+all:
+	make build
+	pyb publish
+
 build:
 	pyb clean
 	pyb package
@@ -12,7 +16,7 @@ run: guard-AUTH_URL
 attach:
 	docker exec -it `docker ps | cut -f1 -d' ' | tail -1`  bash ; \
 
-system-test: build
+system-test:
 	pyb run_cram_tests
 
 guard-%:
