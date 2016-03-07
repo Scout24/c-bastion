@@ -10,11 +10,6 @@
 # The IP-adress of this interface is then used as the AUTH_URL for the
 # jump-host.
 
-# Export some locale env vars, for Travis CI
-
-  $ export LC_ALL=en_US.UTF-8
-  $ export LANG=en_US.UTF-8
-
 # Create the virtualenv
 
   $ virtualenv venv > /dev/null 2>&1
