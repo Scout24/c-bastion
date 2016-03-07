@@ -2,6 +2,9 @@
 `c-bastion` -- Cloud Bastion Host (a.k.a. jump-host)
 ====================================================
 
+.. image:: https://travis-ci.org/ImmobilienScout24/c-bastion.svg?branch=master
+   :target: https://travis-ci.org/ImmobilienScout24/c-bastion
+
 About
 =====
 
