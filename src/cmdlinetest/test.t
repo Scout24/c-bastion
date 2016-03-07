@@ -107,6 +107,7 @@
   > -i integration_key \
   > -o StrictHostKeyChecking=no \
   > -o PasswordAuthentication=no \
+  > -q \
   > "ls /data/home"
   integrationtestuser
 
@@ -132,6 +133,7 @@
   > -i integration_key \
   > -o StrictHostKeyChecking=no \
   > -o PasswordAuthentication=no \
+  > -q \
   > "ls /data/home"
   Permission denied (publickey,password).\r (esc)
   [255]
