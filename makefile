@@ -7,10 +7,10 @@ all:
 build:
 	pyb -X clean
 	pyb -X package
-	docker build -t cbastion .
+	docker build -t c-bastion .
 
 run: guard-AUTH_URL
-	docker run -p 127.0.0.1:8080:8080 -e AUTH_URL=${AUTH_URL} cbastion:latest
+	docker run -p 127.0.0.1:8080:8080 -e AUTH_URL=${AUTH_URL} c-bastion:latest
 
 # TODO this makes the assumption that there is exactly one container running.
 attach:

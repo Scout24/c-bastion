@@ -70,7 +70,7 @@
   $ container_id=$(docker run -d \
   > -p 127.0.0.1:$JUMP_HTTP_PORT:8080 \
   > -p 127.0.0.1:$JUMP_SSH_PORT:22 \
-  > -e AUTH_URL=$AUTH_URL cbastion:latest)
+  > -e AUTH_URL=$AUTH_URL c-bastion:latest)
 
 # Give this 5 seconds to come online
 

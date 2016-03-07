@@ -44,7 +44,7 @@ The project is built with continuous integration on `Travis CI
 image and uploads it to `Docker Hub <https://hub.docker.com/>`_ via Travis.
 Hence you may obtain the Docker image from our organization on Docker Hub:
 
-https://hub.docker.com/r/immobilienscout24/cbastion/
+https://hub.docker.com/r/immobilienscout24/c-bastion/
 
 
 Deployment
@@ -76,14 +76,14 @@ Pull the image from Docker Hub:
 
 .. code-block::
 
-    $ docker pull immobilienscout24/cbastion
+    $ docker pull immobilienscout24/c-bastion
 
 You can then launch the Docker image using, note how the ``AUTH_URL`` is
 supplied:
 
 .. code-block::
 
-    $ docker run -p 127.0.0.1:8080:8080 -e AUTH_URL=http://auth-server.example immobilienscout24/cbastion:latest
+    $ docker run -p 127.0.0.1:8080:8080 -e AUTH_URL=http://auth-server.example immobilienscout24/c-bastion:latest
 
 And finally, check that the container has started and that the jump-host server
 has come up:
