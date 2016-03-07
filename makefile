@@ -2,7 +2,7 @@
 
 build:
 	pyb clean
-	pyb
+	pyb package
 	docker build -t cbastion:latest .
 
 run: guard-AUTH_URL
@@ -11,6 +11,9 @@ run: guard-AUTH_URL
 # TODO this makes the assumption that there is exactly one container running.
 attach:
 	docker exec -it `docker ps | cut -f1 -d' ' | tail -1`  bash ; \
+
+system-test:
+	pyb run_cram_tests
 
 guard-%:
 	@ if [ "${${*}}" = "" ]; then \
