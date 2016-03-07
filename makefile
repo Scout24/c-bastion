@@ -7,7 +7,7 @@ all:
 build:
 	pyb -X clean
 	pyb -X package
-	docker build -t cbastion:latest .
+	docker build -t cbastion .
 
 run: guard-AUTH_URL
 	docker run -p 127.0.0.1:8080:8080 -e AUTH_URL=${AUTH_URL} cbastion:latest
