@@ -14,9 +14,9 @@ RUN apt-get update && apt-get install -y openssh-server supervisor python-pip
 RUN mkdir -p /var/run/sshd /var/log/supervisor
 RUN touch /var/log/cron.log
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ADD target/dist/c-bastion-* /tmp/auth/
-RUN ls /tmp/auth
-RUN cd /tmp/auth/ && pip install .
+ADD target/dist/c-bastion-* /tmp/c-bastion/
+RUN ls /tmp/c-bastion
+RUN cd /tmp/c-bastion && pip install .
 EXPOSE 22 8080
 
 CMD ["/usr/bin/supervisord"]
