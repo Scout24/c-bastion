@@ -12,8 +12,8 @@ branches:
 python:
 - '2.7'
 
-#before_install:
-#- git fetch --unshallow
+before_install:
+- git fetch --unshallow
 
 install:
 - pip install pybuilder coveralls
