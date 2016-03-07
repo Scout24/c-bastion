@@ -7,6 +7,7 @@ use_plugin("python.install_dependencies")
 use_plugin("python.flake8")
 use_plugin("python.coverage")
 use_plugin("python.distutils")
+use_plugin("python.cram")
 use_plugin("filter_resources")
 
 name = 'c-bastion'
@@ -20,7 +21,7 @@ authors = [
 ]
 url = 'https://github.com/ImmobilienScout24/c-bastion'
 
-default_task = "publish"
+default_task = "analyze"
 
 @init
 def initialize(project):
