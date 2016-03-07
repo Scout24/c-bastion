@@ -1,4 +1,16 @@
-# create the virtualenv
+# This is the integration test for c-bastion. Essentially the idea is to launch
+# the docker container that contains the jump-host and check that it works.
+
+# The auth-server is mocked and it was a bit tricky to have the auth-server
+# running on the localhost and the jump-host running inside docker. The problem
+# was that the jump-host must connect to the mocked auth-server from inside the
+# docker container. This is achieved by telling the auth-server-mock to run on
+# all interfaces (0.0.0.0) which means it is also running on the 'docker0'
+# bridge interface, which is reachable from inside the docker container.
+# The IP-adress of this interface is then used as the AUTH_URL for the
+# jump-host.
+
+# Create the virtualenv
 
   $ virtualenv venv > /dev/null 2>&1
   $ ls
@@ -40,7 +52,7 @@
 
   $ export AUTH_URL=http://$DOCKER0_IP:$AUTH_PORT
 
-# start the auth-server-mock
+# Start the auth-server-mock
 
   $ cp "$TESTDIR/auth_mock.py" .
   $ ./auth_mock.py > /dev/null 2>&1 &
@@ -52,8 +64,7 @@
 
   $ sleep 1
 
-
-# start the jump-host and detatch it immediately
+# Start the jump-host and detatch it immediately
 # (Assuming it has been built etc...)
 
   $ container_id=$(docker run -d \
@@ -130,6 +141,6 @@
   $ docker stop $container_id
   * (glob)
 
-# kill the auth-server mock
+# Kill the auth-server mock
 
   $ kill $MOCK_PID
