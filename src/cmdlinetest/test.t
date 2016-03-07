@@ -74,7 +74,7 @@
 
 # Give this 5 seconds to come online
 
-  $ sleep 1
+  $ sleep 2
 
 # Now, let's create a user
 
