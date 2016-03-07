@@ -113,7 +113,7 @@
   > -o StrictHostKeyChecking=no \
   > -o PasswordAuthentication=no \
   > -q -T \
-  > "ls /data/home"
+  > "LC_ALL=en_US.UTF-8 ls /data/home"
   integrationtestuser
 
 # Delete the user again with cbas
