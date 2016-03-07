@@ -46,6 +46,29 @@ Hence you may obtain the Docker image from our organization on Docker Hub:
 
 https://hub.docker.com/r/immobilienscout24/cbastion/
 
+
+Deployment
+----------
+
+Personally, we use `AWS CloudFormation
+<https://aws.amazon.com/de/cloudformation/>`_ in conjunction with `(our own
+custom version of ) Stups Taupage
+<http://stups.readthedocs.org/en/latest/components/taupage.html>`_ to deploy.
+Your milage may vary. Unfortuntaley the templates we use contain private
+configuartion so we are unable to make those available to the public.
+
+API
+===
+
+There are a total of three endpoints:
+
+:``status``: Check if the server is up and running.
+:``create``: Upload ssh-key-file and create user.
+:``delete``: Delete the user again.
+:``version``: Report the version as JSON.
+
+Note however, that the preferred way to interact with the server is ``cbas``.
+
 Local Testing
 =============
 
@@ -76,28 +99,6 @@ You could also check the current version:
 
    $ curl http://127.0.0.1:8080/version
    {'version': '53'}
-
-Deployment
-----------
-
-Personally, we use `AWS CloudFormation
-<https://aws.amazon.com/de/cloudformation/>`_ in conjunction with `(our own
-custom version of ) Stups Taupage
-<http://stups.readthedocs.org/en/latest/components/taupage.html>`_ to deploy.
-Your milage may vary. Unfortuntaley the templates we use contain private
-configuartion so we are unable to make those available to the public.
-
-API
-===
-
-There are a total of three endpoints:
-
-:``status``: Check if the server is up and running.
-:``create``: Upload ssh-key-file and create user.
-:``delete``: Delete the user again.
-:``version``: Report the version as JSON.
-
-Note however, that the preferred way to interact with the server is ``cbas``.
 
 Development
 ===========
@@ -143,6 +144,9 @@ follow.
    .. code-block::
 
        (venv) $ make
+
+The makefile also has some other convenience targets, please familiarise
+yourself with it.
 
 License
 =======
