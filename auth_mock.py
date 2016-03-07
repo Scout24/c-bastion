@@ -43,4 +43,5 @@ def create():
                 }
 
 init_auth_url()
-run(app, host='0.0.0.0', port=8943, debug=True, reloader=True)
+auth_port = os.environ.get('AUTH_PORT') or 8943
+run(app, host='0.0.0.0', port=auth_port, debug=True, reloader=True)

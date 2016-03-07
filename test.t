@@ -28,13 +28,19 @@
 
 # Get the ip of the docker0 interface
 
-  $ docker_ip=$(ip addr | awk '/inet/ && /docker0/{sub(/\/.*$/,"",$2); print $2}')
+  $ DOCKER0_IP=$(ip addr | awk '/inet/ && /docker0/{sub(/\/.*$/,"",$2); print $2}')
+
+# Create some predictable but uncommon port numbers
+
+  $ export AUTH_PORT=8943
+  $ export JUMP_HTTP_PORT=8762
+  $ export JUMP_SSH_PORT=8228
 
 # Export the AUTH_URL
 
-  $ export AUTH_URL=http://$docker_ip:8943
+  $ export AUTH_URL=http://$DOCKER0_IP:$AUTH_PORT
 
-# start the auth-server-mock (on port 8943)
+# start the auth-server-mock
 
   $ cp "$TESTDIR/auth_mock.py" .
   $ ./auth_mock.py > /dev/null 2>&1 &
@@ -50,9 +56,10 @@
 # start the jump-host and detatch it immediately
 # (Assuming it has been built etc...)
 
-  $ container_id=$(docker run -d -p 127.0.0.1:8080:8080 -e AUTH_URL=$AUTH_URL cbastion:latest)
-  docker: Error response from daemon: failed to create endpoint agitated_austin on network bridge: Bind for 127.0.0.1:8080 failed: port is already allocated.
-  [125]
+  $ container_id=$(docker run -d \
+  > -p 127.0.0.1:$JUMP_HTTP_PORT:8080 \
+  > -p 127.0.0.1:$JUMP_SSH_PORT:22 \
+  > -e AUTH_URL=$AUTH_URL cbastion:latest)
 
 # Give this 5 seconds to come online
 
@@ -67,11 +74,13 @@
   integration_key.pub
   venv
 
+# Use cbas to upload the key and create the user
+
   $ cbas -u integrationtestuser -p testing \
   > -k integration_key.pub \
-  > -h localhost:8080 \
+  > -h localhost:$JUMP_HTTP_PORT \
   > -s client_secret \
-  > -a http://localhost:8943/oauth/token \
+  > -a http://localhost:$AUTH_PORT/oauth/token \
   > upload
   Will now attempt to obtain an JWT...
   Authentication OK!
@@ -79,6 +88,42 @@
   Will now attempt to upload your ssh-key...
   Upload OK!
 
+# ssh into the jump host and check that users $HOME directory is there
+
+  $ ssh localhost \
+  > -p $JUMP_SSH_PORT \
+  > -l integrationtestuser \
+  > -i integration_key \
+  > -o StrictHostKeyChecking=no \
+  > -o PasswordAuthentication=no \
+  > "ls /data/home"
+  integrationtestuser
+
+# Delete the user again with cbas
+
+  $ cbas -u integrationtestuser -p testing \
+  > -k integration_key.pub \
+  > -h localhost:$JUMP_HTTP_PORT \
+  > -s client_secret \
+  > -a http://localhost:$AUTH_PORT/oauth/token \
+  > delete
+  Will now attempt to obtain an JWT...
+  Authentication OK!
+  Access token was received.
+  Will now attempt to delete your user...
+  Delete OK!
+
+# Check that the user really has been deleted and can no longer log-in
+
+  $ ssh localhost \
+  > -p $JUMP_SSH_PORT \
+  > -l integrationtestuser \
+  > -i integration_key \
+  > -o StrictHostKeyChecking=no \
+  > -o PasswordAuthentication=no \
+  > "ls /data/home"
+  Permission denied (publickey,password).\r (esc)
+  [255]
 
 # Stop the docker host
 
