@@ -1,28 +1,28 @@
 sudo: required
 
 services:
-  - docker
+    - docker
 
 language: python
 
 branches:
-  only:
-    - master
+    only:
+        - master
 
 python:
-- '2.7'
+    - '2.7'
 
 before_install:
-- git fetch --unshallow
+    - git fetch --unshallow
 
 install:
-- pip install pybuilder coveralls
-- pyb -v install_dependencies
+    - pip install -U pybuilder
+    - pyb -v install_dependencies
 
-script: pyb -X verify analyze
+script:
+    - make
 
 after_success:
-  - docker build -t cbastion:latest .
   - docker tag cbastion:latest immobilienscout24/cbastion:latest
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push immobilienscout24/cbastion
