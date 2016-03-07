@@ -48,7 +48,7 @@ https://hub.docker.com/r/immobilienscout24/cbastion/
 
 
 Deployment
-----------
+==========
 
 Personally, we use `AWS CloudFormation
 <https://aws.amazon.com/de/cloudformation/>`_ in conjunction with `(our own
