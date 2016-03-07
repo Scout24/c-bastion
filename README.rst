@@ -99,6 +99,45 @@ There are a total of three endpoints:
 
 Note however, that the preferred way to interact with the server is ``cbas``.
 
+Development
+===========
+
+The project uses PyBuilder and GNU-Make as build and test tool. GNU-Make is
+used in addition to PyBuilder since this project is basically some Python code
+and some Docker logic so more than *just* PyBuilder was needed. The
+build-system is cobbled together and somewhat flakey, so a few tips and tricks
+follow.
+
+#. You should always build and test within a virtual-environment, that contains
+   an up-to-date `pip` and `pybuilder`:
+
+   .. code-block::
+
+       $ virtualenv venv
+       $ source venv/bin/activate
+       (venv) $ pip install -U pip
+       (venv) $ pip install pybuilder
+       (venv) $ pyb install_dependencies
+
+#. To run just the unit-tests, static code analysis and coverage reporting:
+
+   .. code-block::
+
+       (venv) $ pyb
+       ...
+
+#. To build the Docker image:
+
+   .. code-block::
+
+       (venv) $ make build
+
+#. To system-test the Docker image:
+
+   .. code-block::
+
+       (venv) $ make system-test
+
 
 License
 =======

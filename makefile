@@ -12,7 +12,7 @@ run: guard-AUTH_URL
 attach:
 	docker exec -it `docker ps | cut -f1 -d' ' | tail -1`  bash ; \
 
-system-test:
+system-test: build
 	pyb run_cram_tests
 
 guard-%:
