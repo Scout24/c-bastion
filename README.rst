@@ -19,6 +19,36 @@ container that can be used as a jump-host with dynamically created user. After
 creation, the user is able to log in into the Docker container by using his/her
 given SSH key.
 
+The basic flow is as follows::
+
+    +-----------------+  +-----------------+  +-----------------+
+    |                 |  |                 |  |                 |
+    |    developer    |  |    jump host    |  |   auth server   |
+    |                 |  |                 |  |                 |
+    +--------+--------+  +--------+--------+  +--------+--------+
+             |                    |                    |
+             +----------------------------------------->
+             | request token      |                    |
+             <-----------------------------------------+
+             | receive token      |                    |
+             |                    |                    |
+             +-------------------->                    |
+             | upload key         +-------------------->
+             |                    | validate token     |
+             |                    <--------------------+
+             <--------------------+                    |
+             | upload OK          |                    |
+             |                    |                    |
+             +-------------------->                    |
+             | ssh log in         |                    |
+             |                    |                    |
+             |                    |                    |
+             |                    |                    |
+             +                    +                    +
+
+Where ``developer`` is your local machine (desktop, laptop, etc..) ``auth
+server`` is the auth-server and ``jump host`` is the jump host. ``cbas`` takes
+care of obtaining the token and uploading the ssh-key.
 
 Architecture
 ============
