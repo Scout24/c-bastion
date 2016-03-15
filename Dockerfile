@@ -9,7 +9,7 @@ echo 'deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted uni
 echo 'deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty-updates main restricted universe multiverse' >> /etc/apt/sources.list; \
 echo 'deb-src mirror://mirrors.ubuntu.com/mirrors.txt trusty-security main restricted universe multiverse' >> /etc/apt/sources.list;
 
-RUN apt-get update && apt-get install -y openssh-server supervisor python-pip
+RUN apt-get update && apt-get install -y openssh-server supervisor python-pip vim-gtk
 
 RUN locale-gen "en_US.UTF-8" && dpkg-reconfigure locales
 
