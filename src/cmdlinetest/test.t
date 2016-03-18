@@ -110,6 +110,18 @@
   > "ls /data/home"
   integrationtestuser
 
+# ensure that /tmp only contains the bottle lock
+
+  $ ssh localhost \
+  > -p $JUMP_SSH_PORT \
+  > -l integrationtestuser \
+  > -i integration_key \
+  > -o StrictHostKeyChecking=no \
+  > -o PasswordAuthentication=no \
+  > -q -T \
+  > "ls /tmp"
+  bottle*lock (glob)
+
 # Delete the user again with cbas
 
   $ cbas -u integrationtestuser -p testing \
