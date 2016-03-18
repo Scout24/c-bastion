@@ -20,7 +20,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ADD target/dist/c-bastion-* /tmp/c-bastion/
 RUN ls /tmp/c-bastion
 RUN cd /tmp/c-bastion && pip install .
-RUN echo 'export PS1="${debian_chroot:+($debian_chroot)}\u@\H:\w\$"' >> /etc/profile
+RUN echo 'export PS1="${debian_chroot:+($debian_chroot)}\u@\H:\w\$ "' >> /etc/profile
 EXPOSE 22 8080
 
 CMD ["/usr/bin/supervisord"]
