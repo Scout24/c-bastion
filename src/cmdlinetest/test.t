@@ -24,7 +24,7 @@
 
 #  Update pip, just in cases.
 
-  $ pip install -U pip > /dev/null 2>&1
+  $ pip install -U pip setuptools > /dev/null 2>&1
   $ which pip
   */test.t/venv/bin/pip (glob)
 
