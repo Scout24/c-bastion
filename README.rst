@@ -136,7 +136,7 @@ You could also check the current version:
 Development
 ===========
 
-The project uses PyBuilder and GNU-Make as build and test tool. GNU-Make is
+The project is written in Python 2.7 and uses PyBuilder and GNU-Make as build and test tool. GNU-Make is
 used in addition to PyBuilder since this project is basically some Python code
 and some Docker logic so more than *just* PyBuilder was needed. The
 build-system is cobbled together and somewhat flakey, so a few tips and tricks
