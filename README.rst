@@ -50,6 +50,7 @@ Where ``developer`` is your local machine (desktop, laptop, etc..) ``auth
 server`` is the auth-server and ``jump host`` is the jump host. ``cbas`` takes
 care of obtaining the token and uploading the ssh-key.
 
+
 Architecture
 ============
 
