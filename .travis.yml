@@ -22,10 +22,10 @@ install:
 script:
     - make
     - if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then
-        docker tag c-bastion:latest immobilienscout24/c-bastion:latest
-        docker tag c-bastion:latest immobilienscout24/c-bastion:$( git rev-list --count HEAD )
-        docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-        docker push immobilienscout24/c-bastion
+        docker tag c-bastion:latest immobilienscout24/c-bastion:latest ;
+        docker tag c-bastion:latest immobilienscout24/c-bastion:$( git rev-list --count HEAD ) ;
+        docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" ;
+        docker push immobilienscout24/c-bastion ;
       else
-        echo "skipping Docker upload"
+        echo "skipping Docker upload" ;
       fi
