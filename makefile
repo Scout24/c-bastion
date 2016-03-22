@@ -10,7 +10,7 @@ build:
 	docker build -t c-bastion .
 
 run: guard-AUTH_URL
-	docker run -p 127.0.0.1:8080:8080 -e AUTH_URL=${AUTH_URL} c-bastion:latest
+	docker run -p 8080:8080 -p 2222:2222 -e AUTH_URL=${AUTH_URL} c-bastion:latest
 
 # TODO this makes the assumption that there is exactly one container running.
 attach:

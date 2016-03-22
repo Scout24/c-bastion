@@ -50,6 +50,27 @@ Where ``developer`` is your local machine (desktop, laptop, etc..) ``auth
 server`` is the auth-server and ``jump host`` is the jump host. ``cbas`` takes
 care of obtaining the token and uploading the ssh-key.
 
+Features
+========
+
+The bastion host is a slim Ubuntu and contains the following extra features:
+
+* `vim-nox`_
+* `screen`_ and `tmux`_
+* `zsh`_
+* python with `pip`_ and `virtualenv`_
+* Import `your Personal Environment via SSH`__
+
+.. __: http://blog.schlomo.schapiro.org/2014/02/ssh-with-personal-environment.html
+
+.. _vim-nox: http://packages.ubuntu.com/trusty/vim-nox
+.. _screen: http://packages.ubuntu.com/trusty/screen
+.. _tmux: http://packages.ubuntu.com/trusty/tmux
+.. _zsh: http://packages.ubuntu.com/trusty/zsh
+.. _pip: http://packages.ubuntu.com/trusty/python-pip
+.. _python-virtualenv: http://packages.ubuntu.com/trusty/python-virtualenv
+
+
 Architecture
 ============
 
@@ -136,7 +157,7 @@ You could also check the current version:
 Development
 ===========
 
-The project uses PyBuilder and GNU-Make as build and test tool. GNU-Make is
+The project is written in Python 2.7 and uses PyBuilder and GNU-Make as build and test tool. GNU-Make is
 used in addition to PyBuilder since this project is basically some Python code
 and some Docker logic so more than *just* PyBuilder was needed. The
 build-system is cobbled together and somewhat flakey, so a few tips and tricks

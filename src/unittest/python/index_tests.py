@@ -95,7 +95,7 @@ class TestIndex(unittest.TestCase):
             check_and_add('auser')
 
     @patch('sh.id')
-    @patch('sh.userdel')
+    @patch('sh.userdel', create=True)
     @patch('sh.pkill')
     def test_deletion_of_existing_user(self, pkill_mock, userdel_mock, id_mock):
         username = "MPython"

@@ -1,0 +1,29 @@
+# this is the global screenrc file. Handle with care.
+
+termcapinfo xterm* G0:is=\E[?3;4l\E>
+termcapinfo linux me=\E[m:AX
+defscrollback 10000
+
+# An alternative hardstatus to display a bar at the bottom listing the
+# windownames and highlighting the current windowname in blue. (This is only
+# enabled if there is no hardstatus setting for your terminal)
+hardstatus on
+hardstatus alwayslastline
+hardstatus string "%{.bW}%-w%{.rW}%n %t%{-}%+w %=load:%{..R} %l%{..G} %H %{..Y} %d.%m. %c "
+
+# recognize shells
+shelltitle "$ |# |bash"
+shell -bash
+
+# reconnecting to a running screen with SSH agent requires a persistent name for the auth socket.
+# use some script like /etc/ssh/sshrc to symlink the actualy socket to this persistent name
+setenv SSH_AUTH_SOCK ${HOME}/.ssh/ssh_auth_sock
+
+# don't show the startup screen
+startup_message off
+
+# freeze sux
+bind s
+
+# this properly closes e.g. vim and restores the shell history
+altscreen on
