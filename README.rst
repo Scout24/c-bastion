@@ -50,6 +50,26 @@ Where ``developer`` is your local machine (desktop, laptop, etc..) ``auth
 server`` is the auth-server and ``jump host`` is the jump host. ``cbas`` takes
 care of obtaining the token and uploading the ssh-key.
 
+Features
+========
+
+The bastion host is a slim Ubuntu and contains the following extra features:
+
+* `vim-nox`_
+* `screen`_ and `tmux`_
+* `zsh`_
+* python with `pip`_ and `virtualenv`_
+* Import `your Personal Environment via SSH`__
+
+.. __: http://blog.schlomo.schapiro.org/2014/02/ssh-with-personal-environment.html
+
+.. _vim-nox: http://packages.ubuntu.com/trusty/vim-nox
+.. _screen: http://packages.ubuntu.com/trusty/screen
+.. _tmux: http://packages.ubuntu.com/trusty/tmux
+.. _zsh: http://packages.ubuntu.com/trusty/zsh
+.. _pip: http://packages.ubuntu.com/trusty/python-pip
+.. _python-virtualenv: http://packages.ubuntu.com/trusty/python-virtualenv
+
 
 Architecture
 ============
