@@ -1,6 +1,7 @@
-.idea
+/.idea
 target
-venv
-*.iml
+/venv
+/*.iml
 .coverage
 *.pyc
+*.t.err
