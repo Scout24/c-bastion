@@ -75,3 +75,15 @@ def docker_build(project, logger):
     logger.info("Building the docker image.")
     docker_execute(['build', '-t', 'cbastion', '.'], logger)
 
+
+@task
+@depends('run_cram_tests')
+def system_tests():
+    pass
+
+
+@task
+@depends('publish')
+@depends('docker_build')
+def all():
+    pass
