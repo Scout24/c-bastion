@@ -19,6 +19,7 @@
 
   $ virtualenv venv > /dev/null 2>&1
   $ ls
+  test-home
   venv
 
 # Assuming it worked, activate it
@@ -88,6 +89,7 @@
   auth_mock.py
   integration_key
   integration_key.pub
+  test-home
   venv
 
 # Use cbas to upload the key and create the user
