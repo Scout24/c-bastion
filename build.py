@@ -1,4 +1,4 @@
-from pybuilder.core import use_plugin, init, Author
+from pybuilder.core import use_plugin, init, Author, task, depends
 from pybuilder.vcs import VCSRevision
 
 use_plugin("python.core")
@@ -38,3 +38,20 @@ def initialize(project):
 
     project.get_property('filter_resources_glob').extend(
         ['**/c_bastion/__init__.py'])
+
+
+def docker_execute(command_list, logger):
+    """ Run and tail a docker command. """
+    import sh
+    running_command = sh.docker(command_list, _iter=True)
+    for line in running_command:
+        logger.info(line.strip())
+
+
+@task
+@depends("package")
+@depends("clean")
+def docker_build(project, logger):
+    logger.info("Building the docker image.")
+    docker_execute(['build', '-t', 'cbastion', '.'], logger)
+

@@ -4,11 +4,6 @@ all:
 	make build
 	pyb -X publish
 
-build:
-	pyb -X clean
-	pyb -X package
-	docker build -t c-bastion .
-
 run: guard-AUTH_URL
 	docker run -p 8080:8080 -p 2222:2222 -e AUTH_URL=${AUTH_URL} c-bastion:latest
 
