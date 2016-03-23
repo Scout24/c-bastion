@@ -78,14 +78,14 @@ def docker_build(project, logger):
 
 
 @task
-@depends('run_cram_tests')
 @depends('docker_build')
+@depends('run_cram_tests')
 def system_tests():
     pass
 
 
 @task
-@depends('publish')
 @depends('docker_build')
+@depends('publish')
 def all():
     pass
