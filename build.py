@@ -79,6 +79,7 @@ def docker_build(project, logger):
 
 @task
 @depends('run_cram_tests')
+@depends('docker_build')
 def system_tests():
     pass
 
