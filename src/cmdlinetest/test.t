@@ -154,8 +154,10 @@
   > -i integration_key \
   > -o StrictHostKeyChecking=no \
   > -o PasswordAuthentication=no \
+  > -o UserKnownHostsFile=/dev/null \
+  > -o BatchMode=yes \
+  > -q -T \
   > "ls /data/home"
-  Permission denied (publickey,password).\r (esc)
   [255]
 
 # Stop the docker host
