@@ -113,6 +113,8 @@
   > -i integration_key \
   > -o StrictHostKeyChecking=no \
   > -o PasswordAuthentication=no \
+  > -o UserKnownHostsFile=/dev/null \
+  > -o BatchMode=yes \
   > -q -T \
   > "ls /data/home"
   integrationtestuser
@@ -125,6 +127,8 @@
   > -i integration_key \
   > -o StrictHostKeyChecking=no \
   > -o PasswordAuthentication=no \
+  > -o UserKnownHostsFile=/dev/null \
+  > -o BatchMode=yes \
   > -q -T \
   > "ls /tmp"
   bottle*lock (glob)
