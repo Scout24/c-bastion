@@ -89,7 +89,7 @@
 
   $ cbas -u integrationtestuser -p testing \
   > -k integration_key.pub \
-  > -h localhost:$JUMP_HTTP_PORT \
+  > -h http://localhost:$JUMP_HTTP_PORT \
   > -a http://localhost:$AUTH_PORT/oauth/token \
   > upload
   Will now attempt to obtain an JWT...
@@ -126,7 +126,7 @@
 
   $ cbas -u integrationtestuser -p testing \
   > -k integration_key.pub \
-  > -h localhost:$JUMP_HTTP_PORT \
+  > -h http://localhost:$JUMP_HTTP_PORT \
   > -a http://localhost:$AUTH_PORT/oauth/token \
   > delete
   Will now attempt to obtain an JWT...
