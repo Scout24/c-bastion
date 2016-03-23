@@ -20,7 +20,7 @@ install:
     - pyb -X install_dependencies
 
 script:
-    - pyb -X publish && pyb -X docker_build
+    - pyb -X docker_build && pyb -X publish
     - if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then
         docker tag c-bastion:latest immobilienscout24/c-bastion:latest ;
         docker tag c-bastion:latest immobilienscout24/c-bastion:$( git rev-list --count HEAD ) ;
