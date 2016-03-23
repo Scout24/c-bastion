@@ -61,7 +61,8 @@ def docker_run(project, logger):
     logger.info("Running the docker image.")
     AUTH_URL = os.environ['AUTH_URL']
     docker_execute(['run',
-                    '-p', '127.0.0.1:8080:8080',
+                    '-p', '8080:8080',
+                    '-p', '2222:2222',
                     '-e', 'AUTH_URL={0}'.format(AUTH_URL),
                     '--name', docker_name,
                     'c-bastion:latest',
