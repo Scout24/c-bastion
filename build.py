@@ -1,3 +1,5 @@
+import os
+
 from pybuilder.core import use_plugin, init, Author, task, depends
 from pybuilder.vcs import VCSRevision
 
@@ -43,9 +45,24 @@ def initialize(project):
 def docker_execute(command_list, logger):
     """ Run and tail a docker command. """
     import sh
-    running_command = sh.docker(command_list, _iter=True)
-    for line in running_command:
-        logger.info(line.strip())
+    try:
+        running_command = sh.docker(command_list, _iter=True)
+        for line in running_command:
+            logger.info(line.strip())
+    except KeyboardInterrupt:
+        logger.info("Requested to terminate running docker command.")
+        running_command.process.terminate()
+
+
+@task
+def docker_run(project, logger):
+    logger.info("Running the docker image.")
+    AUTH_URL = os.environ['AUTH_URL']
+    docker_execute(['run',
+                    '-p', '127.0.0.1:8080:8080',
+                    '-e', 'AUTH_URL={0}'.format(AUTH_URL),
+                    'c-bastion:latest',
+                    ], logger)
 
 
 @task
