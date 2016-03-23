@@ -10,6 +10,11 @@
 # The IP-adress of this interface is then used as the AUTH_URL for the
 # jump-host.
 
+# Make a test home
+
+  $ mkdir test-home
+  $ export HOME=test-home
+
 # Create the virtualenv
 
   $ virtualenv venv > /dev/null 2>&1
