@@ -25,6 +25,8 @@ url = 'https://github.com/ImmobilienScout24/c-bastion'
 
 default_task = "analyze"
 
+docker_name = 'run-c-bastion-run'
+
 @init
 def initialize(project):
     project.depends_on("paste")
@@ -61,6 +63,7 @@ def docker_run(project, logger):
     docker_execute(['run',
                     '-p', '127.0.0.1:8080:8080',
                     '-e', 'AUTH_URL={0}'.format(AUTH_URL),
+                    '--name', docker_name,
                     'c-bastion:latest',
                     ], logger)
 
