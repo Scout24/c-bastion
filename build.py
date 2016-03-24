@@ -77,7 +77,7 @@ def docker_build(project, logger):
     docker_execute(['build',
                     '--force-rm',
                     '-t',
-                    'c-bastion',
+                    'c-bastion:{0}'.format(project.version),
                     '.'], logger)
 
 
