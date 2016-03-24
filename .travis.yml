@@ -23,7 +23,7 @@ script:
     - pyb -X all
     - if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then
         docker tag c-bastion:latest immobilienscout24/c-bastion:latest ;
-        docker tag c-bastion:latest immobilienscout24/c-bastion:$( git rev-list --count HEAD ) ;
+        docker tag c-bastion:latest immobilienscout24/c-bastion:$( pyb -Q project_version ) ;
         docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" ;
         docker push immobilienscout24/c-bastion ;
       else
