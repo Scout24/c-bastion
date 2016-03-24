@@ -1,4 +1,4 @@
-from monkey import BaseHTTPRequestHandler as MY_MONKEY
+from c_bastion.monkey import BaseHTTPRequestHandler as MY_MONKEY
 
 import BaseHTTPServer
 BaseHTTPServer.BaseHTTPRequestHandler = MY_MONKEY
