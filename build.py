@@ -44,6 +44,11 @@ def initialize(project):
         ['**/c_bastion/__init__.py'])
 
 
+@task
+def project_version(project, logger):
+    print(project.version)
+
+
 def docker_execute(command_list, logger):
     """ Run and tail a docker command. """
     import sh
