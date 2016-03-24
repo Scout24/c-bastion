@@ -88,7 +88,7 @@ def docker_build(project, logger):
 
 @task
 def docker_tag_latest(project, logger):
-    logger.info("Building the docker image.")
+    logger.info("Tagging version '{0}' with 'latest'.".format(project.version))
     docker_execute(['tag',
                     'c-bastion:{0}'.format(project.version),
                     'c-bastion:latest',
