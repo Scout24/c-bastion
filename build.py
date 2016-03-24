@@ -14,8 +14,8 @@ use_plugin("filter_resources")
 
 name = 'c-bastion'
 commit_count = VCSRevision().get_git_revision_count()
-project.version = '{0}.{1}'.format(commit_count,
-                                   os.environ.get('TRAVIS_BUILD_NUMBER', 0))
+version = '{0}.{1}'.format(commit_count,
+                           os.environ.get('TRAVIS_BUILD_NUMBER', 0))
 summary = 'Cloud Bastion Host'
 authors = [
     Author('Sebastian Spoerer', "sebastian.spoerer@immobilienscout24.de"),
@@ -28,6 +28,7 @@ url = 'https://github.com/ImmobilienScout24/c-bastion'
 default_task = "analyze"
 
 docker_name = 'run-c-bastion-run'
+
 
 @init
 def initialize(project):
