@@ -157,11 +157,7 @@ You could also check the current version:
 Development
 ===========
 
-The project is written in Python 2.7 and uses PyBuilder and GNU-Make as build and test tool. GNU-Make is
-used in addition to PyBuilder since this project is basically some Python code
-and some Docker logic so more than *just* PyBuilder was needed. The
-build-system is cobbled together and somewhat flakey, so a few tips and tricks
-follow.
+The project is written in Python 2.7 and uses PyBuilder build and test tool.
 
 #. You should always build and test within a virtual-environment, that contains
    an up-to-date `pip` and `pybuilder`:
@@ -185,22 +181,19 @@ follow.
 
    .. code-block::
 
-       (venv) $ make build
+       (venv) $ pyb docker_build
 
 #. To system-test the Docker image:
 
    .. code-block::
 
-       (venv) $ make system-test
+       (venv) $ pyb system_test
 
 #. To build and run all available tests, simply type:
 
    .. code-block::
 
-       (venv) $ make
-
-The makefile also has some other convenience targets, please familiarise
-yourself with it.
+       (venv) $ pyb all
 
 License
 =======

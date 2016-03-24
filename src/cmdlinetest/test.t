@@ -10,10 +10,24 @@
 # The IP-adress of this interface is then used as the AUTH_URL for the
 # jump-host.
 
+# Make a test home
+
+  $ mkdir test-home
+  $ export HOME=test-home
+
+# Hack to get the current project version.
+# Use $TESTDIR to get the location of the cram test file, then use git to get
+# the location of the build.py and finally execute pybuilder to get the project
+# version from the authoritative location.
+
+  $ TOPLEVEL=$( cd $TESTDIR && git rev-parse --show-toplevel )
+  $ CURRENT_VERSION=$( cd $TOPLEVEL && pyb -Q project_version)
+
 # Create the virtualenv
 
   $ virtualenv venv > /dev/null 2>&1
   $ ls
+  test-home
   venv
 
 # Assuming it worked, activate it
@@ -70,7 +84,7 @@
   $ container_id=$(docker run -d \
   > -p 127.0.0.1:$JUMP_HTTP_PORT:8080 \
   > -p 127.0.0.1:$JUMP_SSH_PORT:22 \
-  > -e AUTH_URL=$AUTH_URL c-bastion:latest)
+  > -e AUTH_URL=$AUTH_URL c-bastion:$CURRENT_VERSION)
 
 # Give this 5 seconds to come online
 
@@ -83,13 +97,14 @@
   auth_mock.py
   integration_key
   integration_key.pub
+  test-home
   venv
 
 # Use cbas to upload the key and create the user
 
   $ cbas -u integrationtestuser -p testing \
   > -k integration_key.pub \
-  > -h localhost:$JUMP_HTTP_PORT \
+  > -h http://localhost:$JUMP_HTTP_PORT \
   > -a http://localhost:$AUTH_PORT/oauth/token \
   > upload
   Will now attempt to obtain an JWT...
@@ -106,6 +121,8 @@
   > -i integration_key \
   > -o StrictHostKeyChecking=no \
   > -o PasswordAuthentication=no \
+  > -o UserKnownHostsFile=/dev/null \
+  > -o BatchMode=yes \
   > -q -T \
   > "ls /data/home"
   integrationtestuser
@@ -118,6 +135,8 @@
   > -i integration_key \
   > -o StrictHostKeyChecking=no \
   > -o PasswordAuthentication=no \
+  > -o UserKnownHostsFile=/dev/null \
+  > -o BatchMode=yes \
   > -q -T \
   > "ls /tmp"
   bottle*lock (glob)
@@ -126,7 +145,7 @@
 
   $ cbas -u integrationtestuser -p testing \
   > -k integration_key.pub \
-  > -h localhost:$JUMP_HTTP_PORT \
+  > -h http://localhost:$JUMP_HTTP_PORT \
   > -a http://localhost:$AUTH_PORT/oauth/token \
   > delete
   Will now attempt to obtain an JWT...
@@ -143,8 +162,10 @@
   > -i integration_key \
   > -o StrictHostKeyChecking=no \
   > -o PasswordAuthentication=no \
+  > -o UserKnownHostsFile=/dev/null \
+  > -o BatchMode=yes \
+  > -q -T \
   > "ls /data/home"
-  Permission denied (publickey,password).\r (esc)
   [255]
 
 # Stop the docker host
