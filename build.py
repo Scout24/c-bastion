@@ -70,22 +70,19 @@ def docker_run(project, logger):
 
 
 @task
-@depends("package")
-@depends("clean")
+@depends("clean", "package")
 def docker_build(project, logger):
     logger.info("Building the docker image.")
     docker_execute(['build', '-t', 'c-bastion', '.'], logger)
 
 
 @task
-@depends('docker_build')
 @depends('run_cram_tests')
 def system_tests():
     pass
 
 
 @task
-@depends('docker_build')
-@depends('publish')
+@depends('docker_build', 'run_cram_tests')
 def all():
     pass
