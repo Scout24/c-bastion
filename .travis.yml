@@ -20,7 +20,7 @@ install:
     - pyb -X install_dependencies
 
 script:
-    - pyb -E travis -X all
+    - pyb -X all
     - if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then
         docker tag c-bastion:latest immobilienscout24/c-bastion:latest ;
         docker tag c-bastion:latest immobilienscout24/c-bastion:$( pyb -Q project_version ) ;

@@ -13,7 +13,9 @@ use_plugin("python.cram")
 use_plugin("filter_resources")
 
 name = 'c-bastion'
-version = VCSRevision().get_git_revision_count()
+commit_count = VCSRevision().get_git_revision_count()
+project.version = '{0}.{1}'.format(commit_count,
+                                   os.environ.get('TRAVIS_BUILD_NUMBER', 0))
 summary = 'Cloud Bastion Host'
 authors = [
     Author('Sebastian Spoerer', "sebastian.spoerer@immobilienscout24.de"),
@@ -42,12 +44,6 @@ def initialize(project):
 
     project.get_property('filter_resources_glob').extend(
         ['**/c_bastion/__init__.py'])
-
-
-@init(environments='travis')
-def set_properties_for_travis_builds(project):
-    project.version = '{0}.{1}'.format(
-        project.version, os.environ.get('TRAVIS_BUILD_NUMBER', 0))
 
 
 @task
