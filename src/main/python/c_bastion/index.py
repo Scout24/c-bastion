@@ -1,8 +1,3 @@
-from c_bastion.monkey import BaseHTTPRequestHandler as MY_MONKEY
-
-import BaseHTTPServer
-BaseHTTPServer.BaseHTTPRequestHandler = MY_MONKEY
-
 import os
 import re
 from os.path import normpath
