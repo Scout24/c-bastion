@@ -15,6 +15,14 @@
   $ mkdir test-home
   $ export HOME=test-home
 
+# Hack to get the current project version.
+# Use $TESTDIR to get the location of the cram test file, then use git to get
+# the location of the build.py and finally execute pybuilder to get the project
+# version from the authoritative location.
+
+  $ TOPLEVEL=$( cd $TESTDIR && git rev-parse --show-toplevel )
+  $ CURRENT_VERSION=$( cd $TOPLEVEL && pyb -Q project_version)
+
 # Create the virtualenv
 
   $ virtualenv venv > /dev/null 2>&1
@@ -76,7 +84,7 @@
   $ container_id=$(docker run -d \
   > -p 127.0.0.1:$JUMP_HTTP_PORT:8080 \
   > -p 127.0.0.1:$JUMP_SSH_PORT:22 \
-  > -e AUTH_URL=$AUTH_URL c-bastion)
+  > -e AUTH_URL=$AUTH_URL c-bastion:$CURRENT_VERSION)
 
 # Give this 5 seconds to come online
 

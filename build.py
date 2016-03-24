@@ -87,12 +87,21 @@ def docker_build(project, logger):
 
 
 @task
-@depends('run_cram_tests')
+def docker_tag_latest(project, logger):
+    logger.info("Building the docker image.")
+    docker_execute(['tag',
+                    'c-bastion:{0}'.format(project.version),
+                    'c-bastion:latest',
+                    '.'], logger)
+
+
+@task
+@depends('run_cram_tests', 'docker_tag_latest')
 def system_tests():
     pass
 
 
 @task
-@depends('docker_build', 'run_cram_tests')
+@depends('docker_build', 'system_tests')
 def all():
     pass
