@@ -240,6 +240,7 @@ class BaseHTTPRequestHandler(SocketServer.StreamRequestHandler):
         error is sent back.
 
         """
+        print 'entered parse_request'
         self.command = None  # set in case of error on the first line
         self.request_version = version = self.default_request_version
         self.close_connection = 1
