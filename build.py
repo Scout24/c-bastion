@@ -46,7 +46,7 @@ def initialize(project):
 
 @init(environments='travis')
 def set_properties_for_travis_builds(project):
-    project.version = '%{0}.%{1}'.format(
+    project.version = '{0}.{1}'.format(
         project.version, os.environ.get('TRAVIS_BUILD_NUMBER', 0))
 
 
