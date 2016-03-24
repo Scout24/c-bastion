@@ -91,8 +91,7 @@ def docker_tag_latest(project, logger):
     logger.info("Tagging version '{0}' with 'latest'.".format(project.version))
     docker_execute(['tag',
                     'c-bastion:{0}'.format(project.version),
-                    'c-bastion:latest',
-                    '.'], logger)
+                    'c-bastion:latest'], logger)
 
 
 @task
