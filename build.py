@@ -74,7 +74,11 @@ def docker_run(project, logger):
 @depends("clean", "package")
 def docker_build(project, logger):
     logger.info("Building the docker image.")
-    docker_execute(['build', '-t', 'c-bastion', '.'], logger)
+    docker_execute(['build',
+                    '--force-rm',
+                    '-t',
+                    'c-bastion',
+                    '.'], logger)
 
 
 @task
