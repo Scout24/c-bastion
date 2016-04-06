@@ -3,6 +3,8 @@ FROM ubuntu:trusty
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -q update && apt-get -q -y install --no-install-recommends \
+    curl \
+    httping \
     iputils-tracepath \
     netcat \
     openssh-client \
