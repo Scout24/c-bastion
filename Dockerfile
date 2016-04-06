@@ -3,14 +3,18 @@ FROM ubuntu:trusty
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -q update && apt-get -q -y install --no-install-recommends \
+    netcat \
     openssh-client \
     openssh-server \
     python-pip \
     python-virtualenv \
     screen \
+    siege \
+    socat \
     supervisor \
     tmux \
     vim-nox \
+    wget \
     zsh
 
 RUN locale-gen en_US.UTF-8 de_DE.UTF-8 && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
