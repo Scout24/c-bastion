@@ -9,6 +9,7 @@ RUN apt-get -q update && apt-get -q -y install --no-install-recommends \
     netcat \
     openssh-client \
     openssh-server \
+    python-gevent \
     python-pip \
     python-virtualenv \
     screen \
