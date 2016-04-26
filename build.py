@@ -43,7 +43,7 @@ def initialize(project):
     project.build_depends_on("requests_mock")
     project.build_depends_on('mock')
 
-    project.set_property('coverage_breaks_build', False)
+    project.set_property('coverage_break_build', False)
     project.get_property('filter_resources_glob').extend(
         ['**/c_bastion/__init__.py'])
 
