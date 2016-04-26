@@ -1,3 +1,5 @@
+from gevent import monkey; monkey.patch_all()
+
 import os
 import re
 from os.path import normpath
@@ -169,5 +171,5 @@ def delete_user():
 
 def run_server():
     init_auth_url()
-    run(host='0.0.0.0', reloader=True, server="paste")
+    run(host='0.0.0.0', reloader=True, server="gevent")
 
