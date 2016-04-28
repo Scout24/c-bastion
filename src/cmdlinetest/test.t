@@ -86,7 +86,7 @@
   > -p 127.0.0.1:$JUMP_SSH_PORT:22 \
   > -e AUTH_URL=$AUTH_URL c-bastion:$CURRENT_VERSION)
 
-# Give this 5 seconds to come online
+# Give this 2 seconds to come online
 
   $ sleep 2
 
