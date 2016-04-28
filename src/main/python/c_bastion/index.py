@@ -159,7 +159,9 @@ def create_user_with_key():
     store_pubkey(username, abs_home_path, pubkey)
 
     response.status = 201
-    return {'response': 'Successful creation of user {0}.'.format(username)}
+    return {'response':
+            'Successful creation of user {0} and/or upload of key.'
+            .format(username)}
 
 
 def delete_user():
