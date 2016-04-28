@@ -75,24 +75,33 @@ def check_username(username):
                 'allowed.'.format(username)})
 
 
+def username_exists(username):
+    try:
+        sh.id(username)
+    except sh.ErrorReturnCode_1:
+        return False
+    else:
+        return True
+
+
+def useradd(username):
+    sh.useradd(username, '-b', PATH_PREFIX, '-p', '*', '-s', '/bin/bash')
+
+
 def check_and_add(username):
     """
     Check if the user already exists.
 
     Raise UsernameException when it exists, create when not.
     """
-    try:
-        sh.id(username)
-    except sh.ErrorReturnCode:
+    if not username_exists(username):
         if not os.path.exists(PATH_PREFIX):
             # If the initial homes don't exist, create them with the right mode
             os.makedirs(PATH_PREFIX, mode=0o755)
-        # User does not exist, add it
-        sh.useradd(
-            username, '-b', PATH_PREFIX, '-p', '*', '-s', '/bin/bash')
-        return
-    raise UsernameException(
-        400, {'error': 'Username {0} already exists.'.format(username)})
+        useradd(username)
+    else:
+        raise UsernameException(
+            400, {'error': 'Username {0} already exists.'.format(username)})
 
 
 def check_and_delete(username):
