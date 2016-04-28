@@ -134,10 +134,11 @@ def create_user_with_key():
     try:
         # Preliminary username check
         check_username(username)
-        abs_home_path = normpath(os.path.join(PATH_PREFIX, username))
     except UsernameException as exc:
         response.status = exc.args[0]
         return exc.args[1]
+
+    abs_home_path = normpath(os.path.join(PATH_PREFIX, username))
 
     try:
         check_and_add(username)
