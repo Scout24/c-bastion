@@ -141,6 +141,19 @@
   > "ls /tmp"
   bottle*lock (glob)
 
+# Check that calling the create endpoint again doesn't error
+
+  $ cbas -u integrationtestuser -p testing \
+  > -k integration_key.pub \
+  > -h http://localhost:$JUMP_HTTP_PORT \
+  > -a http://localhost:$AUTH_PORT/oauth/token \
+  > upload
+  Will now attempt to obtain an JWT...
+  Authentication OK!
+  Access token was received.
+  Will now attempt to upload your ssh-key...
+  Upload OK!
+
 # Delete the user again with cbas
 
   $ cbas -u integrationtestuser -p testing \
