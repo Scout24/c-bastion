@@ -152,8 +152,8 @@ def create_user_with_key():
     try:
         check_and_add(username)
     except UsernameException as exc:
-        response.status = exc.args[0]
-        return exc.args[1]
+        # if the user already exists, it's all good
+        pass
 
     # Do the actual creation
     store_pubkey(username, abs_home_path, pubkey)
