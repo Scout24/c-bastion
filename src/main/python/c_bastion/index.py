@@ -88,6 +88,12 @@ def useradd(username):
     sh.useradd(username, '-b', PATH_PREFIX, '-p', '*', '-s', '/bin/bash')
 
 
+def check_and_create_homes():
+    if not os.path.exists(PATH_PREFIX):
+        # If the initial homes don't exist, create them with the right mode
+        os.makedirs(PATH_PREFIX, mode=0o755)
+
+
 def check_and_add(username):
     """
     Check if the user already exists.
@@ -95,9 +101,6 @@ def check_and_add(username):
     Raise UsernameException when it exists, create when not.
     """
     if not username_exists(username):
-        if not os.path.exists(PATH_PREFIX):
-            # If the initial homes don't exist, create them with the right mode
-            os.makedirs(PATH_PREFIX, mode=0o755)
         useradd(username)
     else:
         raise UsernameException(
@@ -183,5 +186,6 @@ def delete_user():
 
 def run_server():
     init_auth_url()
+    check_and_create_homes()
     run(host='0.0.0.0', reloader=True, server="gevent")
 
