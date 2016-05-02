@@ -75,24 +75,33 @@ def check_username(username):
                 'allowed.'.format(username)})
 
 
+def username_exists(username):
+    try:
+        sh.id(username)
+    except sh.ErrorReturnCode_1:
+        return False
+    else:
+        return True
+
+
+def useradd(username):
+    sh.useradd(username, '-b', PATH_PREFIX, '-p', '*', '-s', '/bin/bash')
+
+
 def check_and_add(username):
     """
     Check if the user already exists.
 
     Raise UsernameException when it exists, create when not.
     """
-    try:
-        sh.id(username)
-    except sh.ErrorReturnCode:
+    if not username_exists(username):
         if not os.path.exists(PATH_PREFIX):
             # If the initial homes don't exist, create them with the right mode
             os.makedirs(PATH_PREFIX, mode=0o755)
-        # User does not exist, add it
-        sh.useradd(
-            username, '-b', PATH_PREFIX, '-p', '*', '-s', '/bin/bash')
-        return
-    raise UsernameException(
-        400, {'error': 'Username {0} already exists.'.format(username)})
+        useradd(username)
+    else:
+        raise UsernameException(
+            400, {'error': 'Username {0} already exists.'.format(username)})
 
 
 def check_and_delete(username):
@@ -134,22 +143,25 @@ def create_user_with_key():
     try:
         # Preliminary username check
         check_username(username)
-        abs_home_path = normpath(os.path.join(PATH_PREFIX, username))
     except UsernameException as exc:
         response.status = exc.args[0]
         return exc.args[1]
 
+    abs_home_path = normpath(os.path.join(PATH_PREFIX, username))
+
     try:
         check_and_add(username)
     except UsernameException as exc:
-        response.status = exc.args[0]
-        return exc.args[1]
+        # if the user already exists, it's all good
+        pass
 
     # Do the actual creation
     store_pubkey(username, abs_home_path, pubkey)
 
     response.status = 201
-    return {'response': 'Successful creation of user {0}.'.format(username)}
+    return {'response':
+            'Successful creation of user {0} and/or upload of key.'
+            .format(username)}
 
 
 def delete_user():
