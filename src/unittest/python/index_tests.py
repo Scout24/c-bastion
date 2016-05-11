@@ -8,10 +8,28 @@ import tempfile
 import shutil
 import stat
 from c_bastion import index
-from c_bastion.index import (store_pubkey, check_username, check_and_add,
+from c_bastion.index import (store_pubkey, username_valid, check_and_add,
                              check_and_delete, delete_user, UsernameException,
                              create_user_with_key,
                              )
+
+
+class TestUsernameValid(unittest.TestCase):
+
+    def test_username_happy_path(self):
+        self.assertTrue(username_valid("monty"))
+
+    def test_username_exception_on_root(self):
+        self.assertFalse(username_valid("root"))
+
+    def test_username_exception_on_filepath(self):
+        self.assertFalse(username_valid("/"))
+
+    def test_username_exception_on_non_text_chars(self):
+        self.assertFalse(username_valid("%$§"))
+
+    def test_username_exception_on_umlaut(self):
+        self.assertFalse(username_valid("mönty"))
 
 
 class TestIndex(unittest.TestCase):
@@ -39,28 +57,6 @@ class TestIndex(unittest.TestCase):
         access = filestat_ssh & (stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
         self.assertEqual(access, 0o0700)
 
-    def test_username_happy_path(self):
-        self.assertIsNone(check_username("monty"))
-
-    def test_username_exception_on_none(self):
-        with self.assertRaises(UsernameException):
-            check_username(None)
-
-    def test_username_exception_on_root(self):
-        with self.assertRaises(UsernameException):
-            check_username("root")
-
-    def test_username_exception_on_filepath(self):
-        with self.assertRaises(UsernameException):
-            check_username("/")
-
-    def test_username_exception_on_non_text_chars(self):
-        with self.assertRaises(UsernameException):
-            check_username("%$§")
-
-    def test_username_exception_on_umlaut(self):
-        with self.assertRaises(UsernameException):
-            check_username("mönty")
 
     @patch('c_bastion.index.username_exists')
     @patch('c_bastion.index.useradd')
