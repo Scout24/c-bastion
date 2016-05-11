@@ -11,7 +11,7 @@ from bottle import get, post, request, response, run
 from . import __version__
 
 REGEX_USERNAME = re.compile('^[a-z0-9_]+$')
-PATH_PREFIX = '/data/home'
+HOME_PATH_PREFIX = '/data/home'
 LIST_DISABLED_USERS = ['root']
 
 
@@ -85,13 +85,13 @@ def username_exists(username):
 
 
 def useradd(username):
-    sh.useradd(username, '-b', PATH_PREFIX, '-p', '*', '-s', '/bin/bash')
+    sh.useradd(username, '-b', HOME_PATH_PREFIX, '-p', '*', '-s', '/bin/bash')
 
 
 def check_and_create_homes():
-    if not os.path.exists(PATH_PREFIX):
+    if not os.path.exists(HOME_PATH_PREFIX):
         # If the initial homes don't exist, create them with the right mode
-        os.makedirs(PATH_PREFIX, mode=0o755)
+        os.makedirs(HOME_PATH_PREFIX, mode=0o755)
 
 
 def check_and_add(username):
@@ -150,7 +150,7 @@ def create_user_with_key():
         response.status = exc.args[0]
         return exc.args[1]
 
-    abs_home_path = normpath(os.path.join(PATH_PREFIX, username))
+    abs_home_path = normpath(os.path.join(HOME_PATH_PREFIX, username))
 
     try:
         check_and_add(username)
