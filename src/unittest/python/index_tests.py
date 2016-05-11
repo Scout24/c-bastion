@@ -60,19 +60,23 @@ class TestIndex(unittest.TestCase):
 
     @patch('c_bastion.index.username_exists')
     @patch('c_bastion.index.useradd')
-    def test_check_and_add_successful(self,
-                                      useradd_mock,
-                                      username_exists_mock,
-                                     ):
+    def test_check_and_add_works_with_no_user(self,
+                                              useradd_mock,
+                                              username_exists_mock,
+                                              ):
         username_exists_mock.return_value = False
-        check_and_add('auser')
+        self.assertTrue(check_and_add('auser'))
         useradd_mock.called_once_with('auser')
 
-
     @patch('c_bastion.index.username_exists')
-    def test_check_and_add_user_exists(self, username_exists_mock):
+    @patch('c_bastion.index.useradd')
+    def test_check_and_add_works_with_existing_user(self,
+                                                    useradd_mock,
+                                                    username_exists_mock,
+                                                    ):
         username_exists_mock.return_value = True
-        self.assertRaises(UsernameException, check_and_add, 'auser')
+        self.assertFalse(check_and_add('auser'))
+        useradd_mock.calls = 0
 
     @patch('sh.id')
     @patch('sh.userdel', create=True)

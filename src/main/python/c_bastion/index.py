@@ -80,16 +80,11 @@ def check_and_create_homes():
 
 
 def check_and_add(username):
-    """
-    Check if the user already exists.
-
-    Raise UsernameException when it exists, create when not.
-    """
     if not username_exists(username):
         useradd(username)
+        return True
     else:
-        raise UsernameException(
-            400, {'error': 'Username {0} already exists.'.format(username)})
+        return False
 
 
 def check_and_delete(username):
@@ -137,11 +132,7 @@ def create_user_with_key():
 
     abs_home_path = normpath(os.path.join(HOME_PATH_PREFIX, username))
 
-    try:
-        check_and_add(username)
-    except UsernameException as exc:
-        # if the user already exists, it's all good
-        pass
+    username_was_added = check_and_add(username)
 
     # Do the actual creation
     store_pubkey(username, abs_home_path, pubkey)
