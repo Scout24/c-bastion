@@ -15,7 +15,7 @@ HOME_PATH_PREFIX = '/data/home'
 LIST_DISABLED_USERS = ['root']
 
 
-class UsernameException(BaseException):
+class UsernameException(Exception):
     pass
 
 
