@@ -62,37 +62,21 @@ class TestIndex(unittest.TestCase):
         with self.assertRaises(UsernameException):
             check_username("mönty")
 
-    @patch('sh.id', create=True)
-    @patch('sh.useradd', create=True)
-    @patch('os.path.exists')
-    def test_check_and_add_successful_homedir_exists(self, path_exists_mock,
-                                                     useradd_mock, id_mock):
-        id_mock.side_effect = sh.ErrorReturnCode_1('sh', '', '')
-        path_exists_mock.return_value = True
+    @patch('c_bastion.index.username_exists')
+    @patch('c_bastion.index.useradd')
+    def test_check_and_add_successful(self,
+                                      useradd_mock,
+                                      username_exists_mock,
+                                     ):
+        username_exists_mock.return_value = False
         check_and_add('auser')
-        id_mock.assert_called_once_with('auser')
-        useradd_mock.assert_called_once_with('auser', '-b', index.PATH_PREFIX,
-                                             '-p', '*', '-s', '/bin/bash')
+        useradd_mock.called_once_with('auser')
 
-    @patch('sh.id', create=True)
-    @patch('sh.useradd', create=True)
-    @patch('os.path.exists')
-    @patch('os.makedirs')
-    def test_check_and_add_successful_homedir_missing(self, makedirs_mock,
-                                                      path_exists_mock,
-                                                      useradd_mock, id_mock):
-        id_mock.side_effect = sh.ErrorReturnCode_1('sh', '', '')
-        path_exists_mock.return_value = False
-        check_and_add('auser')
-        id_mock.assert_called_once_with('auser')
-        makedirs_mock.assert_called_once_with(index.PATH_PREFIX, mode=0o755)
-        useradd_mock.assert_called_once_with('auser', '-b', index.PATH_PREFIX,
-                                             '-p', '*', '-s', '/bin/bash')
 
-    @patch('sh.id', create=True)
-    def test_check_and_add_user_exists(self, id_mock):
-        with self.assertRaises(UsernameException):
-            check_and_add('auser')
+    @patch('c_bastion.index.username_exists')
+    def test_check_and_add_user_exists(self, username_exists_mock):
+        username_exists_mock.return_value = True
+        self.assertRaises(UsernameException, check_and_add, 'auser')
 
     @patch('sh.id')
     @patch('sh.userdel', create=True)
