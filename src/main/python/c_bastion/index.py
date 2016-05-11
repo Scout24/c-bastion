@@ -75,7 +75,6 @@ def useradd(username):
 
 def check_and_create_homes():
     if not os.path.exists(HOME_PATH_PREFIX):
-        # If the initial homes don't exist, create them with the right mode
         os.makedirs(HOME_PATH_PREFIX, mode=0o755)
 
 
