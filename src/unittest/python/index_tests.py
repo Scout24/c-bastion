@@ -106,8 +106,9 @@ class TestIndex(unittest.TestCase):
 
     @patch("c_bastion.index.username_from_request", Mock(return_value=None))
     def test_create_user_with_key_fails_for_missing_username(self):
-        self.assertEqual(create_user_with_key(), {'error': 'Permission denied'})
-        self.assertEqual(index.response.status, "403 Forbidden")
+        self.assertEqual(create_user_with_key(),
+                         {'error': "Parameter 'username' not specified"})
+        self.assertEqual(index.response.status, '422 Unprocessable Entity')
 
 
     @patch("c_bastion.index.username_from_request", Mock(return_value='any_user'))
@@ -115,5 +116,5 @@ class TestIndex(unittest.TestCase):
     def test_create_user_with_key_fails_for_missing_pubkey(self, json_mock):
         json_mock.json.get.return_value = None
         self.assertEqual(create_user_with_key(),
-                         {'error': 'Parameter \'pubkey\' not specified'})
-        self.assertEqual(index.response.status, "400 Bad Request")
+                         {'error': "Parameter 'pubkey' not specified"})
+        self.assertEqual(index.response.status, '422 Unprocessable Entity')

@@ -93,8 +93,8 @@ def create_user_with_key():
     """
     username = username_from_request(request)
     if not username:
-        response.status = 403
-        return {'error': 'Permission denied'}
+        response.status = 422
+        return {'error': "Parameter 'username' not specified"}
     elif not username_valid(username):
         response.status = 400
         return {'error':
@@ -104,8 +104,8 @@ def create_user_with_key():
 
     pubkey = request.json.get('pubkey')
     if not pubkey:
-        response.status = 400
-        return {'error': 'Parameter \'pubkey\' not specified'}
+        response.status = 422
+        return {'error': "Parameter 'pubkey' not specified"}
 
     abs_home_path = normpath(os.path.join(HOME_PATH_PREFIX, username))
 
