@@ -86,25 +86,6 @@ def check_and_add(username):
         return False
 
 
-def check_and_delete(username):
-    """
-    Check if the user exists before killing his processes and deleting him.
-    Raise UsernameException when user doesn't exist.
-    """
-    try:
-        sh.id(username)
-    except sh.ErrorReturnCode:
-        raise UsernameException(
-            400, {'error': 'Username {0} does not exist.'.format(username)})
-
-    # User exists, kill him
-    try:
-        sh.pkill('-u', username, '-9')
-    except sh.ErrorReturnCode:
-        pass
-    sh.userdel('-r', username)
-
-
 def create_user_with_key():
     """
     Create a user directory with a keyfile on the shared volume, data
@@ -137,6 +118,25 @@ def create_user_with_key():
     return {'response':
             'Successful creation of user {0} and/or upload of key.'
             .format(username)}
+
+
+def check_and_delete(username):
+    """
+    Check if the user exists before killing his processes and deleting him.
+    Raise UsernameException when user doesn't exist.
+    """
+    try:
+        sh.id(username)
+    except sh.ErrorReturnCode:
+        raise UsernameException(
+            400, {'error': 'Username {0} does not exist.'.format(username)})
+
+    # User exists, kill him
+    try:
+        sh.pkill('-u', username, '-9')
+    except sh.ErrorReturnCode:
+        pass
+    sh.userdel('-r', username)
 
 
 def delete_user():
