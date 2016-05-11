@@ -55,24 +55,9 @@ def store_pubkey(username, home_dir, pubkey):
     sh.chown('-R', '{username}:{username}'.format(username=username), home_dir)
 
 
-def check_username(username):
-    """
-    Check the format of the username against various rules.
-    """
-    if username is None:
-        raise UsernameException(
-            400, {
-                'error': 'Parameter \'username\' not specified.'})
-    if REGEX_USERNAME.search(username) is None:
-        raise UsernameException(
-            403, {
-                'error': 'Invalid parameter \'username\': \'{0}\''.format(
-                    username)})
-    if username in LIST_DISABLED_USERS:
-        raise UsernameException(
-            404, {
-                'error': 'Invalid parameter \'username\': \'{0}\' not '
-                'allowed.'.format(username)})
+def username_valid(username):
+    return not (REGEX_USERNAME.search(username) is None or
+                username in LIST_DISABLED_USERS)
 
 
 def username_exists(username):
@@ -143,12 +128,12 @@ def create_user_with_key():
         response.status = 400
         return {'error': 'Parameter \'pubkey\' not specified'}
 
-    try:
-        # Preliminary username check
-        check_username(username)
-    except UsernameException as exc:
-        response.status = exc.args[0]
-        return exc.args[1]
+    if not username_valid(username):
+        response.status = 400
+        return {'error':
+                "Invalid parameter 'username': '{0}' not allowed.".
+                format(username)
+                }
 
     abs_home_path = normpath(os.path.join(HOME_PATH_PREFIX, username))
 
