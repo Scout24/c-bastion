@@ -11,7 +11,7 @@ from bottle import get, post, request, response, run
 from . import __version__
 
 REGEX_USERNAME = re.compile('^[a-z0-9_]+$')
-HOME_PATH_PREFIX = '/data/home'
+HOME_PATH_PREFIX = '/home'
 LIST_DISABLED_USERS = ['root']
 
 
