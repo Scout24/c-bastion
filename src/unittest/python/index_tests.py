@@ -8,10 +8,28 @@ import tempfile
 import shutil
 import stat
 from c_bastion import index
-from c_bastion.index import (store_pubkey, check_username, check_and_add,
+from c_bastion.index import (store_pubkey, username_valid, check_and_add,
                              check_and_delete, delete_user, UsernameException,
                              create_user_with_key,
                              )
+
+
+class TestUsernameValid(unittest.TestCase):
+
+    def test_username_happy_path(self):
+        self.assertTrue(username_valid("monty"))
+
+    def test_username_exception_on_root(self):
+        self.assertFalse(username_valid("root"))
+
+    def test_username_exception_on_filepath(self):
+        self.assertFalse(username_valid("/"))
+
+    def test_username_exception_on_non_text_chars(self):
+        self.assertFalse(username_valid("%$§"))
+
+    def test_username_exception_on_umlaut(self):
+        self.assertFalse(username_valid("mönty"))
 
 
 class TestIndex(unittest.TestCase):
@@ -39,60 +57,26 @@ class TestIndex(unittest.TestCase):
         access = filestat_ssh & (stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
         self.assertEqual(access, 0o0700)
 
-    def test_username_happy_path(self):
-        self.assertIsNone(check_username("monty"))
 
-    def test_username_exception_on_none(self):
-        with self.assertRaises(UsernameException):
-            check_username(None)
+    @patch('c_bastion.index.username_exists')
+    @patch('c_bastion.index.useradd')
+    def test_check_and_add_works_with_no_user(self,
+                                              useradd_mock,
+                                              username_exists_mock,
+                                              ):
+        username_exists_mock.return_value = False
+        self.assertTrue(check_and_add('auser'))
+        useradd_mock.called_once_with('auser')
 
-    def test_username_exception_on_root(self):
-        with self.assertRaises(UsernameException):
-            check_username("root")
-
-    def test_username_exception_on_filepath(self):
-        with self.assertRaises(UsernameException):
-            check_username("/")
-
-    def test_username_exception_on_non_text_chars(self):
-        with self.assertRaises(UsernameException):
-            check_username("%$§")
-
-    def test_username_exception_on_umlaut(self):
-        with self.assertRaises(UsernameException):
-            check_username("mönty")
-
-    @patch('sh.id', create=True)
-    @patch('sh.useradd', create=True)
-    @patch('os.path.exists')
-    def test_check_and_add_successful_homedir_exists(self, path_exists_mock,
-                                                     useradd_mock, id_mock):
-        id_mock.side_effect = sh.ErrorReturnCode_1('sh', '', '')
-        path_exists_mock.return_value = True
-        check_and_add('auser')
-        id_mock.assert_called_once_with('auser')
-        useradd_mock.assert_called_once_with('auser', '-b', index.PATH_PREFIX,
-                                             '-p', '*', '-s', '/bin/bash')
-
-    @patch('sh.id', create=True)
-    @patch('sh.useradd', create=True)
-    @patch('os.path.exists')
-    @patch('os.makedirs')
-    def test_check_and_add_successful_homedir_missing(self, makedirs_mock,
-                                                      path_exists_mock,
-                                                      useradd_mock, id_mock):
-        id_mock.side_effect = sh.ErrorReturnCode_1('sh', '', '')
-        path_exists_mock.return_value = False
-        check_and_add('auser')
-        id_mock.assert_called_once_with('auser')
-        makedirs_mock.assert_called_once_with(index.PATH_PREFIX, mode=0o755)
-        useradd_mock.assert_called_once_with('auser', '-b', index.PATH_PREFIX,
-                                             '-p', '*', '-s', '/bin/bash')
-
-    @patch('sh.id', create=True)
-    def test_check_and_add_user_exists(self, id_mock):
-        with self.assertRaises(UsernameException):
-            check_and_add('auser')
+    @patch('c_bastion.index.username_exists')
+    @patch('c_bastion.index.useradd')
+    def test_check_and_add_works_with_existing_user(self,
+                                                    useradd_mock,
+                                                    username_exists_mock,
+                                                    ):
+        username_exists_mock.return_value = True
+        self.assertFalse(check_and_add('auser'))
+        useradd_mock.calls = 0
 
     @patch('sh.id')
     @patch('sh.userdel', create=True)
@@ -122,8 +106,9 @@ class TestIndex(unittest.TestCase):
 
     @patch("c_bastion.index.username_from_request", Mock(return_value=None))
     def test_create_user_with_key_fails_for_missing_username(self):
-        self.assertEqual(create_user_with_key(), {'error': 'Permission denied'})
-        self.assertEqual(index.response.status, "403 Forbidden")
+        self.assertEqual(create_user_with_key(),
+                         {'error': "Parameter 'username' not specified"})
+        self.assertEqual(index.response.status, '422 Unprocessable Entity')
 
 
     @patch("c_bastion.index.username_from_request", Mock(return_value='any_user'))
@@ -131,5 +116,5 @@ class TestIndex(unittest.TestCase):
     def test_create_user_with_key_fails_for_missing_pubkey(self, json_mock):
         json_mock.json.get.return_value = None
         self.assertEqual(create_user_with_key(),
-                         {'error': 'Parameter \'pubkey\' not specified'})
-        self.assertEqual(index.response.status, "400 Bad Request")
+                         {'error': "Parameter 'pubkey' not specified"})
+        self.assertEqual(index.response.status, '422 Unprocessable Entity')

@@ -124,7 +124,7 @@
   > -o UserKnownHostsFile=/dev/null \
   > -o BatchMode=yes \
   > -q -T \
-  > "ls /data/home"
+  > "ls /home"
   integrationtestuser
 
 # ensure that /tmp only contains the bottle lock
@@ -178,7 +178,7 @@
   > -o UserKnownHostsFile=/dev/null \
   > -o BatchMode=yes \
   > -q -T \
-  > "ls /data/home"
+  > "ls /home"
   [255]
 
 # Stop the docker host

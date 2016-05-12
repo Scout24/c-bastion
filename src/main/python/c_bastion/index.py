@@ -11,11 +11,11 @@ from bottle import get, post, request, response, run
 from . import __version__
 
 REGEX_USERNAME = re.compile('^[a-z0-9_]+$')
-PATH_PREFIX = '/data/home'
+HOME_PATH_PREFIX = '/home'
 LIST_DISABLED_USERS = ['root']
 
 
-class UsernameException(BaseException):
+class UsernameException(Exception):
     pass
 
 
@@ -55,24 +55,9 @@ def store_pubkey(username, home_dir, pubkey):
     sh.chown('-R', '{username}:{username}'.format(username=username), home_dir)
 
 
-def check_username(username):
-    """
-    Check the format of the username against various rules.
-    """
-    if username is None:
-        raise UsernameException(
-            400, {
-                'error': 'Parameter \'username\' not specified.'})
-    if REGEX_USERNAME.search(username) is None:
-        raise UsernameException(
-            403, {
-                'error': 'Invalid parameter \'username\': \'{0}\''.format(
-                    username)})
-    if username in LIST_DISABLED_USERS:
-        raise UsernameException(
-            404, {
-                'error': 'Invalid parameter \'username\': \'{0}\' not '
-                'allowed.'.format(username)})
+def username_valid(username):
+    return not (REGEX_USERNAME.search(username) is None or
+                username in LIST_DISABLED_USERS)
 
 
 def username_exists(username):
@@ -85,23 +70,49 @@ def username_exists(username):
 
 
 def useradd(username):
-    sh.useradd(username, '-b', PATH_PREFIX, '-p', '*', '-s', '/bin/bash')
+    sh.useradd(username, '-b', HOME_PATH_PREFIX, '-p', '*', '-s', '/bin/bash')
 
 
 def check_and_add(username):
-    """
-    Check if the user already exists.
-
-    Raise UsernameException when it exists, create when not.
-    """
     if not username_exists(username):
-        if not os.path.exists(PATH_PREFIX):
-            # If the initial homes don't exist, create them with the right mode
-            os.makedirs(PATH_PREFIX, mode=0o755)
         useradd(username)
+        return True
     else:
-        raise UsernameException(
-            400, {'error': 'Username {0} already exists.'.format(username)})
+        return False
+
+
+def create_user_with_key():
+    """
+    Create a user directory with a keyfile on the shared volume, data
+    arriving in the payload of the request with a JSON payload.
+    """
+    username = username_from_request(request)
+    if not username:
+        response.status = 422
+        return {'error': "Parameter 'username' not specified"}
+    elif not username_valid(username):
+        response.status = 400
+        return {'error':
+                "Invalid parameter 'username': '{0}' not allowed.".
+                format(username)
+                }
+
+    pubkey = request.json.get('pubkey')
+    if not pubkey:
+        response.status = 422
+        return {'error': "Parameter 'pubkey' not specified"}
+
+    abs_home_path = normpath(os.path.join(HOME_PATH_PREFIX, username))
+
+    username_was_added = check_and_add(username)
+
+    # Do the actual creation
+    store_pubkey(username, abs_home_path, pubkey)
+
+    response.status = 201
+    return {'response':
+            'Successful creation of user {0} and/or upload of key.'
+            .format(username)}
 
 
 def check_and_delete(username):
@@ -121,47 +132,6 @@ def check_and_delete(username):
     except sh.ErrorReturnCode:
         pass
     sh.userdel('-r', username)
-
-
-def create_user_with_key():
-    """
-    Create a user directory with a keyfile on the shared volume, data
-    arriving in the payload of the request with a JSON payload.
-    """
-    username = username_from_request(request)
-
-    if not username:
-        response.status = 403
-        return {'error': 'Permission denied'}
-
-    pubkey = request.json.get('pubkey')
-
-    if not pubkey:
-        response.status = 400
-        return {'error': 'Parameter \'pubkey\' not specified'}
-
-    try:
-        # Preliminary username check
-        check_username(username)
-    except UsernameException as exc:
-        response.status = exc.args[0]
-        return exc.args[1]
-
-    abs_home_path = normpath(os.path.join(PATH_PREFIX, username))
-
-    try:
-        check_and_add(username)
-    except UsernameException as exc:
-        # if the user already exists, it's all good
-        pass
-
-    # Do the actual creation
-    store_pubkey(username, abs_home_path, pubkey)
-
-    response.status = 201
-    return {'response':
-            'Successful creation of user {0} and/or upload of key.'
-            .format(username)}
 
 
 def delete_user():
