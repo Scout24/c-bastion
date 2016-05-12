@@ -49,9 +49,9 @@ def store_pubkey(username, home_dir, pubkey):
         os.makedirs(dir_ssh, mode=0o700)
     auth_key_path = os.path.join(dir_ssh, 'authorized_keys')
     pubkey = '{0}\n'.format(pubkey.strip())
-    with open(auth_key_path, 'wb') as fd:
-        fd.write(pubkey)
-    os.chmod(auth_key_path, 0o600)
+    file_descriptor = os.open(auth_key_path, os.O_WRONLY | os.O_CREAT, 0o600)
+    with os.fdopen(file_descriptor, 'w') as file_pointer:
+        file_pointer.write(pubkey)
     sh.chown('-R', '{username}:{username}'.format(username=username), home_dir)
 
 
