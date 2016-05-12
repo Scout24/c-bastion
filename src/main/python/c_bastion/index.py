@@ -39,20 +39,25 @@ def version():
     return {'version': __version__}
 
 
-def store_pubkey(username, home_dir, pubkey):
-    """
-    Create the user's directory and copy the public key into it.
-    Also, set the proper permissions.
-    """
+def chown(path, username):
+    sh.chown('-R', '{username}:{username}'.format(username=username), path)
+
+
+def get_authorized_keys_path(username, home_dir):
     dir_ssh = os.path.join(home_dir, '.ssh')
     if not os.path.exists(dir_ssh):
         os.makedirs(dir_ssh, mode=0o700)
-    auth_key_path = os.path.join(dir_ssh, 'authorized_keys')
+        chown(dir_ssh, username)
+    return os.path.join(dir_ssh, 'authorized_keys')
+
+
+def store_pubkey(username, home_dir, pubkey):
+    auth_key_path = get_authorized_keys_path(username, home_dir)
     pubkey = '{0}\n'.format(pubkey.strip())
     file_descriptor = os.open(auth_key_path, os.O_WRONLY | os.O_CREAT, 0o600)
     with os.fdopen(file_descriptor, 'w') as file_pointer:
         file_pointer.write(pubkey)
-    sh.chown('-R', '{username}:{username}'.format(username=username), home_dir)
+    chown(home_dir, username)
 
 
 def username_valid(username):
