@@ -118,7 +118,6 @@ There are a total of three endpoints:
 
 :``status``: Check if the server is up and running.
 :``create``: Upload ssh-key-file and create user.
-:``delete``: Delete the user again.
 :``version``: Report the version as JSON.
 
 Note however, that the preferred way to interact with the server is ``cbas``.

@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import unittest
-from mock import patch, Mock
+from mock import patch, Mock, call
 import sh
 import os
 import tempfile
@@ -42,10 +42,13 @@ class TestIndex(unittest.TestCase):
 
     @patch('sh.chown')
     def test_store_pubkey(self, chown_mock):
-        store_pubkey('foo', self.tempdir, 'abc')
-        chown_mock.assert_called_once_with('-R', 'foo:foo', self.tempdir)
+        dot_ssh_dir = os.path.join(self.tempdir, '.ssh')
         authorized_keys_file = os.path.join(self.tempdir,
                                             '.ssh/authorized_keys')
+        store_pubkey('foo', self.tempdir, 'abc')
+        chown_mock.assert_has_calls([call('-R', 'foo:foo', dot_ssh_dir),
+                                     call('-R', 'foo:foo', self.tempdir),
+                                     ])
         authorized_keys = open(authorized_keys_file).read()
         self.assertEqual(authorized_keys, 'abc\n')
         file_stat = os.stat(authorized_keys_file).st_mode
