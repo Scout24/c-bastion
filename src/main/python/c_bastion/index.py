@@ -73,11 +73,6 @@ def useradd(username):
     sh.useradd(username, '-b', HOME_PATH_PREFIX, '-p', '*', '-s', '/bin/bash')
 
 
-def check_and_create_homes():
-    if not os.path.exists(HOME_PATH_PREFIX):
-        os.makedirs(HOME_PATH_PREFIX, mode=0o755)
-
-
 def check_and_add(username):
     if not username_exists(username):
         useradd(username)
@@ -158,6 +153,5 @@ def delete_user():
 
 def run_server():
     init_auth_url()
-    check_and_create_homes()
     run(host='0.0.0.0', reloader=True, server="gevent")
 
