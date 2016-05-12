@@ -19,11 +19,6 @@ class UsernameException(Exception):
     pass
 
 
-@post('/delete')
-def delete_user_entry_point():
-    return delete_user()
-
-
 @post('/create')
 def create_user_entry_point():
     return create_user_with_key()
@@ -113,42 +108,6 @@ def create_user_with_key():
     return {'response':
             'Successful creation of user {0} and/or upload of key.'
             .format(username)}
-
-
-def check_and_delete(username):
-    """
-    Check if the user exists before killing his processes and deleting him.
-    Raise UsernameException when user doesn't exist.
-    """
-    try:
-        sh.id(username)
-    except sh.ErrorReturnCode:
-        raise UsernameException(
-            400, {'error': 'Username {0} does not exist.'.format(username)})
-
-    # User exists, kill him
-    try:
-        sh.pkill('-u', username, '-9')
-    except sh.ErrorReturnCode:
-        pass
-    sh.userdel('-r', username)
-
-
-def delete_user():
-    username = username_from_request(request)
-
-    if not username:
-        response.status = 403
-        return {'error': 'Permission denied'}
-
-    try:
-        check_and_delete(username)
-    except UsernameException as exc:
-        response.status = exc.args[0]
-        return exc.args[1]
-
-    response.status = 200
-    return {'response': 'Successful deletion of user {0}.'.format(username)}
 
 
 def run_server():
