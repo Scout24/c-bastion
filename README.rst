@@ -15,7 +15,7 @@ and then log in with these formerly created users. The CLI tool is called
 https://github.com/immobilienscout24/cbas
 
 The purpose of this project is to provide an EC2 instance with a Docker
-container that can be used as a jump-host with dynamically created user. After
+container that can be used as a jump-host with dynamically created users. After
 creation, the user is able to log in into the Docker container by using his/her
 given SSH key.
 
@@ -86,7 +86,7 @@ Configuration
 To run the jump-host you will need a so called auth-server that can provide
 `OpenID Connect <http://openid.net/connect/>`_
 `Json Web Tokens <http://jwt.io/>`_. To configure this server, please supply
-the URL via an environment variable called ``AUTH_URL``. Note, that is
+the URL via an environment variable called ``AUTH_URL``. Note that is
 configured as a full url *including* the protocol and *without* a trailing
 slash, e.g. ``http://auth-server.example``.
 
