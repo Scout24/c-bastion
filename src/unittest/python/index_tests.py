@@ -2,14 +2,14 @@
 
 import unittest
 from mock import patch, Mock
-import sh
 import os
 import tempfile
 import shutil
 import stat
 from c_bastion import index
-from c_bastion.index import (store_pubkey, username_valid, check_and_add,
-                             check_and_delete, delete_user, UsernameException,
+from c_bastion.index import (store_pubkey,
+                             username_valid,
+                             check_and_add,
                              create_user_with_key,
                              )
 
@@ -78,31 +78,6 @@ class TestIndex(unittest.TestCase):
         self.assertFalse(check_and_add('auser'))
         useradd_mock.calls = 0
 
-    @patch('sh.id')
-    @patch('sh.userdel', create=True)
-    @patch('sh.pkill')
-    def test_deletion_of_existing_user(self, pkill_mock, userdel_mock, id_mock):
-        username = "MPython"
-        check_and_delete(username)
-        id_mock.assert_called_once_with(username)
-        pkill_mock.assert_called_once_with('-u', username, '-9')
-        userdel_mock.assert_called_once_with('-r', username)
-
-    def test_deletion_throw_exception_for_nonexistant_user(self):
-        with self.assertRaises(UsernameException):
-            check_and_delete('MPython')
-
-    @patch("c_bastion.index.username_from_request",
-           Mock(return_value="MPython"))
-    def test_delete_user_with_nonexistent_user(self):
-        self.assertEqual(
-            delete_user(), {'error': 'Username MPython does not exist.'})
-        self.assertEqual(index.response.status, "400 Bad Request")
-
-    @patch("c_bastion.index.username_from_request", Mock(return_value=None))
-    def test_delete_user_with_bad_auth_response(self):
-        self.assertEqual(delete_user(), {'error': 'Permission denied'})
-        self.assertEqual(index.response.status, "403 Forbidden")
 
     @patch("c_bastion.index.username_from_request", Mock(return_value=None))
     def test_create_user_with_key_fails_for_missing_username(self):

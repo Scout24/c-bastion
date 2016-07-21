@@ -154,33 +154,6 @@
   Will now attempt to upload your ssh-key...
   Upload OK!
 
-# Delete the user again with cbas
-
-  $ cbas -u integrationtestuser -p testing \
-  > -k integration_key.pub \
-  > -h http://localhost:$JUMP_HTTP_PORT \
-  > -a http://localhost:$AUTH_PORT/oauth/token \
-  > delete
-  Will now attempt to obtain an JWT...
-  Authentication OK!
-  Access token was received.
-  Will now attempt to delete your user...
-  Delete OK!
-
-# Check that the user really has been deleted and can no longer log-in
-
-  $ ssh localhost \
-  > -p $JUMP_SSH_PORT \
-  > -l integrationtestuser \
-  > -i integration_key \
-  > -o StrictHostKeyChecking=no \
-  > -o PasswordAuthentication=no \
-  > -o UserKnownHostsFile=/dev/null \
-  > -o BatchMode=yes \
-  > -q -T \
-  > "ls /home"
-  [255]
-
 # Stop the docker host
 
   $ docker stop $container_id
