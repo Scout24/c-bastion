@@ -5,6 +5,11 @@
 .. image:: https://travis-ci.org/ImmobilienScout24/c-bastion.svg?branch=master
    :target: https://travis-ci.org/ImmobilienScout24/c-bastion
 
+
+=======================================================
+This project is DEPRECATED and not any longer supported
+=======================================================
+
 About
 =====
 
